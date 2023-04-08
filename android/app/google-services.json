@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "749600160177",
+    "firebase_url": "https://fridgeit-d17ae-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "fridgeit-d17ae",
+    "storage_bucket": "fridgeit-d17ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749600160177:android:75733f091a734963776590",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "749600160177-kst1cgf4ml8nan3tiet2ncshq4b9njrb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxFSm_WxEHXsNYXAOs_AQsVFMgR9O-WwU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "749600160177-kst1cgf4ml8nan3tiet2ncshq4b9njrb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "749600160177-35i3u32o4cedjk515e9tu4tlvd42a1gl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterApplication1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
