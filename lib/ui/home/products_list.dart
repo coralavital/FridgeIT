@@ -15,51 +15,96 @@ class ProductsList extends StatefulWidget {
   State<ProductsList> createState() => _ProductsList();
 }
 
-class _ProductsList extends State<ProductsList> {
+class _ProductsList extends State<ProductsList>
+    with SingleTickerProviderStateMixin {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseFirestoreService fbS = FirebaseFirestoreService();
 
   CustomToast? toast;
 
+  late AnimationController controller;
+  late Animation<double> animation;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 4),
+    )
+      ..forward()
+      ..repeat(reverse: true);
+    animation = Tween<double>(begin: 0.0, end: 1.0).animate(controller);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            //Header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text(
-                  'Products List',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            //Body
-            Expanded(
-              child: StreamBuilder(
-                  stream: _firestore
-                      .collection(_auth.currentUser!.uid)
-                      .doc('user_data')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Container();
+      padding: EdgeInsets.all(Dimensions.size15),
+      child: Column(
+        children: [
+          //Header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              BigText(
+                  text: 'Products List',
+                  size: Dimensions.size30,
+                  fontWeight: FontWeight.bold,
+                  color: ThemeColors().main),
+            ],
+          ),
+          SizedBox(
+            height: Dimensions.size25,
+          ),
+          //Body
+          Expanded(
+            child: StreamBuilder(
+                stream: _firestore
+                    .collection(_auth.currentUser!.uid)
+                    .doc('user_data')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Container();
+                  } else {
+                    if (snapshot.data!['products'].length == 0) {
+                      return Center(
+                        child: Column(children: [
+                          SizedBox(
+                            height: Dimensions.size150,
+                          ),
+                          AnimatedIcon(
+                            icon: AnimatedIcons.list_view,
+                            color: ThemeColors().light1,
+                            progress: animation,
+                            size: Dimensions.size30,
+                            semanticLabel: 'Show menu',
+                          ),
+                          SizedBox(
+                            height: Dimensions.size15,
+                          ),
+                          SmallText(
+                            text: 'There is no products yet',
+                            size: Dimensions.size15,
+                            fontWeight: FontWeight.w500,
+                            color: ThemeColors().main,
+                          ),
+                        ]),
+                      );
                     } else {
                       return ListView.builder(
                           itemCount: snapshot.data!['products'].length,
                           itemBuilder: (_, index) {
                             return SizedBox(
-                              height: Dimensions.size90,
+                              height: Dimensions.size100,
                               width: double.maxFinite,
                               child: Row(
                                 children: [
@@ -193,10 +238,11 @@ class _ProductsList extends State<ProductsList> {
                             );
                           });
                     }
-                  }),
-            ),
-          ],
-        ),
-      );
+                  }
+                }),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -26,7 +26,7 @@ class _CustomContainerState extends State<CustomContainer> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 10, bottom: 9),
+      padding: EdgeInsets.only(right: Dimensions.size10, bottom: Dimensions.size7),
       child: Container(
         width: Dimensions.size130,
         padding: EdgeInsets.all(Dimensions.size15),
@@ -40,28 +40,29 @@ class _CustomContainerState extends State<CustomContainer> {
             SmallText(
                 text: widget.title,
                 color: Colors.black54,
-                size: Dimensions.size10,
-                fontWeight: FontWeight.bold),
+                size: Dimensions.size15,
+                fontWeight: FontWeight.w600),
             SizedBox(
-              height: 15,
+              height: Dimensions.size5,
             ),
-            Image.network(
-              widget.image.toString(),
-              height: Dimensions.size70,
-              width: Dimensions.size70,
-            ),
+            CircleAvatar(
+  radius: Dimensions.size30, // Image radius
+  backgroundImage: NetworkImage(widget.image.toString(),),
+),
+
             SizedBox(
-              height: 10,
+              height: Dimensions.size5,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 widget.expiriation_date != null
                     ? Container(
-                        height: 12,
-                        width: 12,
+                        height: Dimensions.size7,
+                        width: Dimensions.size7,
                         decoration: BoxDecoration(
                           color: Colors.green,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(Dimensions.size13),
                         ),
                       )
                     : SizedBox(),
@@ -72,7 +73,7 @@ class _CustomContainerState extends State<CustomContainer> {
                     ? Text(
                         widget.expiriation_date!,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 10),
+                        style: TextStyle(fontSize: Dimensions.size10, fontWeight: FontWeight.w500),
                         overflow: TextOverflow.ellipsis,
                       )
                     : SizedBox()

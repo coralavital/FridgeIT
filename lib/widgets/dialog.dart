@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fridge_it/widgets/small_text.dart';
 
+import '../theme/theme_colors.dart';
+
 class CustomDialog extends StatelessWidget {
   String title;
   String message;
@@ -14,7 +16,8 @@ class CustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('$title'),
+      backgroundColor: ThemeColors().cream,
+      title: Text(title),
 
       content: SmallText(
               text: message,

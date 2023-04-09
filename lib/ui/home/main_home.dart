@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:flutter/services.dart';
 import 'package:fridge_it/ui/home/shopping_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -46,7 +47,12 @@ class _MainHomeState extends State<MainHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          toolbarHeight: Dimensions.size15,
+          systemOverlayStyle: SystemUiOverlayStyle(
+            // Status bar color
+            systemNavigationBarColor: ThemeColors().background,
+            statusBarColor: ThemeColors().background,
+          ),
+          toolbarHeight: Dimensions.size20,
           backgroundColor: ThemeColors().background),
       backgroundColor: ThemeColors().background,
       body: _pages[currentPage],
@@ -54,17 +60,15 @@ class _MainHomeState extends State<MainHome> {
         padding: EdgeInsets.only(
           left: Dimensions.size15,
           right: Dimensions.size15,
-          bottom: Dimensions.size5,
+          bottom: Dimensions.size20,
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(Dimensions.size20),
-          child: SizedBox(
-            height: Dimensions.size60,
-            child: BottomNavigationBar(
+          child: BottomNavigationBar(
               showSelectedLabels: false,
               showUnselectedLabels: false,
               backgroundColor: ThemeColors().light2,
-              currentIndex: currentPage,
+              currentIndex: currentPage,  
               type: BottomNavigationBarType.fixed,
               onTap: tappedPage,
               items: [
@@ -115,7 +119,7 @@ class _MainHomeState extends State<MainHome> {
                   label: 'S',
                 ),
               ],
-            ),
+            
           ),
         ),
       ),

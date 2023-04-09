@@ -19,7 +19,7 @@ class CustomToast {
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25.0),
-        color: ThemeColors().main,
+        color: ThemeColors().cream,
       ),
       margin: EdgeInsets.only(bottom: Dimensions.size40),
       child: Text(

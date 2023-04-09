@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fridge_it/resources/auth_res.dart';
@@ -8,6 +9,7 @@ import 'package:fridge_it/theme/theme_colors.dart';
 import 'package:fridge_it/ui/auth/reset_password.dart';
 import 'package:fridge_it/ui/auth/signup_page.dart';
 import 'package:fridge_it/ui/home/main_home.dart';
+import 'package:fridge_it/utils/dimensions.dart';
 import 'package:fridge_it/widgets/custom_button.dart';
 import 'package:fridge_it/widgets/custom_loader.dart';
 import 'package:fridge_it/widgets/text_field.dart';
@@ -53,9 +55,9 @@ class _LoginPageState extends State<LoginPage> {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0,
+        backgroundColor: ThemeColors().background,
+        textColor: ThemeColors().main,
+        fontSize: Dimensions.size15,
       );
     }
   }
@@ -63,35 +65,42 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ThemeColors().background,
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+            // Status bar color
+            systemNavigationBarColor: ThemeColors().background,
+            statusBarColor: ThemeColors().background,
+          ),
         backgroundColor: ThemeColors().background,
         scrolledUnderElevation: 0,
+        
       ),
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.white,
+          color: ThemeColors().background,
           child: Column(
             children: [
               Text(
                 'Welcome back',
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: Dimensions.size25,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: ThemeColors().green2,
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: Dimensions.size20,
               ),
               Text(
                 'Login to continue...',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
+                  fontSize: Dimensions.size15,
+                  color: ThemeColors().main,
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: Dimensions.size20,
               ),
               TextFieldWidget(
                 controller: _email,
@@ -110,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: Dimensions.size20,
               ),
               CustomButton(
                 text: 'Login',
@@ -120,39 +129,40 @@ class _LoginPageState extends State<LoginPage> {
                 },
               ),
               SizedBox(
-                height: 20,
+                height: Dimensions.size20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: Dimensions.size20),
                 child: Row(
                   children: [
                     Expanded(
                       child: Divider(
                         height: 1,
-                        color: Colors.grey,
+                        color: ThemeColors().green2,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 5, right: 5),
+                      padding: EdgeInsets.only(
+                          left: Dimensions.size5, right: Dimensions.size5),
                       child: Text(
                         'OR',
                         style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
+                          color: ThemeColors().green2,
+                          fontSize: Dimensions.size15,
                         ),
                       ),
                     ),
                     Expanded(
                       child: Divider(
                         height: 1,
-                        color: Colors.grey,
+                        color: ThemeColors().green2,
                       ),
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                height: 15,
+                height: Dimensions.size15,
               ),
               GestureDetector(
                 onTap: () {
@@ -163,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                       ));
                 },
                 child: Container(
-                  height: 50,
+                  height: Dimensions.size50,
                   width: double.infinity,
                   color: Colors.transparent,
                   child: Center(
@@ -172,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(
-                height: 15,
+                height: Dimensions.size15,
               ),
               GestureDetector(
                 onTap: () {
@@ -183,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                       ));
                 },
                 child: Container(
-                  height: 50,
+                  height: Dimensions.size50,
                   width: double.infinity,
                   color: Colors.transparent,
                   child: Center(

@@ -2,13 +2,16 @@
 
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fridge_it/resources/auth_res.dart';
 import 'package:fridge_it/widgets/custom_button.dart';
 import 'package:fridge_it/widgets/custom_loader.dart';
+import 'package:fridge_it/widgets/small_text.dart';
 
 import '../../theme/theme_colors.dart';
+import '../../utils/dimensions.dart';
 import '../../widgets/text_field.dart';
 
 class SignupPage extends StatefulWidget {
@@ -19,52 +22,53 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  final TextEditingController _name = TextEditingController();
+  final TextEditingController _username = TextEditingController();
   final TextEditingController _surname = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final CustomLoader _loader = CustomLoader();
+  String _gender = "";
+  String _avatar = "";
 
   @override
   void dispose() {
-    _name.dispose();
+    _username.dispose();
+    _surname.dispose();
     _surname.dispose();
     _email.dispose();
     _password.dispose();
     super.dispose();
   }
 
-  var avatars = [
-    'https://firebasestorage.googleapis.com/v0/b/babeit.appspot.com/o/avatar%2Favatar1.png?alt=media&token=a0d86773-1df8-4e7f-b9d8-37e588e77fcf',
-    'https://firebasestorage.googleapis.com/v0/b/babeit.appspot.com/o/avatar%2Favatar10.png?alt=media&token=7441c5a7-eae6-4e15-87ad-2dcbe013db6a',
-    'https://firebasestorage.googleapis.com/v0/b/babeit.appspot.com/o/avatar%2Favatar11.png?alt=media&token=585db2d4-f86c-4a7d-b526-9a91b0ba7371',
-    'https://firebasestorage.googleapis.com/v0/b/babeit.appspot.com/o/avatar%2Favatar12.png?alt=media&token=03cdcb46-1f90-47cd-9145-0fb4c42b3074',
-    'https://firebasestorage.googleapis.com/v0/b/babeit.appspot.com/o/avatar%2Favatar13.png?alt=media&token=319babb6-285a-4498-8786-1d198a786704',
-    'https://firebasestorage.googleapis.com/v0/b/babeit.appspot.com/o/avatar%2Favatar14.png?alt=media&token=cfaf4cbe-ffe2-4d2a-8935-2a254892bf75',
-    'https://firebasestorage.googleapis.com/v0/b/babeit.appspot.com/o/avatar%2Favatar2.png?alt=media&token=486459ed-cd7b-4f68-8e4b-19dcc1f8db3b',
-    'https://firebasestorage.googleapis.com/v0/b/babeit.appspot.com/o/avatar%2Favatar3.png?alt=media&token=8b61a38b-2690-466d-b2eb-ecc9bb27faf4',
-    'https://firebasestorage.googleapis.com/v0/b/babeit.appspot.com/o/avatar%2Favatar4.png?alt=media&token=78fbb383-a6c8-4bc3-9c9b-7dd12cda395b',
-    'https://firebasestorage.googleapis.com/v0/b/babeit.appspot.com/o/avatar%2Favatar5.png?alt=media&token=2cd54e1b-281b-4c70-8737-841c4d2b0c77',
-    'https://firebasestorage.googleapis.com/v0/b/babeit.appspot.com/o/avatar%2Favatar6.png?alt=media&token=9abcc325-7598-4837-b458-356ecde0c93b',
-    'https://firebasestorage.googleapis.com/v0/b/babeit.appspot.com/o/avatar%2Favatar7.png?alt=media&token=cd45d31b-675c-4bab-a26f-45aa54728873',
-    'https://firebasestorage.googleapis.com/v0/b/babeit.appspot.com/o/avatar%2Favatar8.png?alt=media&token=06d01cd6-e1f8-4987-8e42-539195cf25b8',
-    'https://firebasestorage.googleapis.com/v0/b/babeit.appspot.com/o/avatar%2Favatar9.png?alt=media&token=28be50e1-047d-496c-b4cf-0cef0c2eb350',
+  var maleAvatars = [
+    'https://firebasestorage.googleapis.com/v0/b/fridgeit-d17ae.appspot.com/o/users_avatar%2Fface2.png?alt=media&token=eb330f9b-8149-42e0-ab51-741472a4cd8f',
+    'https://firebasestorage.googleapis.com/v0/b/fridgeit-d17ae.appspot.com/o/users_avatar%2Fface3.png?alt=media&token=fbeab66b-35cd-46fc-a039-f7b8a011ea3a',
+    'https://firebasestorage.googleapis.com/v0/b/fridgeit-d17ae.appspot.com/o/users_avatar%2Fface6.png?alt=media&token=caf2ac19-94ff-45ef-bcea-b5f86f12aad2',
   ];
-
+  var femaleAvatars = [
+    'https://firebasestorage.googleapis.com/v0/b/fridgeit-d17ae.appspot.com/o/users_avatar%2Fface1.png?alt=media&token=7be54431-612e-4cb2-ac61-92c2f1e1023c',
+    'https://firebasestorage.googleapis.com/v0/b/fridgeit-d17ae.appspot.com/o/users_avatar%2Fface4.png?alt=media&token=5036c8c1-0866-42d3-bfac-506caeb39c80',
+    'https://firebasestorage.googleapis.com/v0/b/fridgeit-d17ae.appspot.com/o/users_avatar%2Fface5.png?alt=media&token=1fae0fc6-64f2-40f2-a9ee-338e61c2cd0f',
+  ];
   createAccount() async {
-    var avatarList = avatars[Random().nextInt(avatars.length)];
-    String name = _name.text.toString().trim();
-    String surname = _surname.text.toString().trim();
+    String userName = _username.text.toString().trim();
+    String surName = _surname.text.toString().trim();
     String email = _email.text.toString().trim();
     String password = _password.text.toString().trim();
+    String gender = _gender.toString().trim();
+    String avatar;
+    List products = [];
+    List shopping_list = [];
+    List products_history = [];
 
-    String res = await AuthRes().createAccount(
-      name,
-      surname,
-      email,
-      avatarList,
-      password,
-    );
+    if (_gender.toString().trim() == 'male') {
+      avatar = maleAvatars[Random().nextInt(maleAvatars.length)];
+    } else {
+      avatar = femaleAvatars[Random().nextInt(femaleAvatars.length)];
+    }
+
+    String res = await AuthRes().createAccount(userName, surName, email, gender,
+        avatar, password, products, shopping_list, products_history);
 
     if (res == 'success') {
       _loader.hideLoader();
@@ -76,9 +80,9 @@ class _SignupPageState extends State<SignupPage> {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0,
+        backgroundColor: ThemeColors().background,
+        textColor: ThemeColors().main,
+        fontSize: Dimensions.size15,
       );
     }
   }
@@ -86,46 +90,45 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ThemeColors().background,
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          // Status bar color
+          systemNavigationBarColor: ThemeColors().background,
+          statusBarColor: ThemeColors().background,
+        ),
         backgroundColor: ThemeColors().background,
         scrolledUnderElevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back,
-          ),
-        ),
       ),
       body: SingleChildScrollView(
         child: Container(
           color: ThemeColors().background,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 'Welcome',
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: Dimensions.size25,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: ThemeColors().green2,
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: Dimensions.size20,
               ),
               Text(
                 'Create account to continue...',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
+                  fontSize: Dimensions.size15,
+                  color: ThemeColors().main,
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: Dimensions.size20,
               ),
               TextFieldWidget(
-                controller: _name,
+                controller: _username,
                 hintText: 'Name',
                 prefixIcon: SvgPicture.asset(
                   'assets/icons/person.svg',
@@ -134,7 +137,7 @@ class _SignupPageState extends State<SignupPage> {
               ),
               TextFieldWidget(
                 controller: _surname,
-                hintText: 'Surname',
+                hintText: 'surName',
                 prefixIcon: SvgPicture.asset(
                   'assets/icons/person.svg',
                   fit: BoxFit.none,
@@ -156,8 +159,39 @@ class _SignupPageState extends State<SignupPage> {
                   fit: BoxFit.none,
                 ),
               ),
+              Padding(padding: EdgeInsets.only(left: Dimensions.size20), child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: RadioListTile(
+                      title: SmallText(text: "Male"),
+                      value: "male",
+                      activeColor: ThemeColors().main,
+                      groupValue: _gender,
+                      onChanged: (value) {
+                        setState(() {
+                          _gender = value.toString();
+                        });
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: RadioListTile(
+                      title: SmallText(text: "Female"),
+                      value: "female",
+                      activeColor: ThemeColors().main,
+                      groupValue: _gender,
+                      onChanged: (value) {
+                        setState(() {
+                          _gender = value.toString();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),),
               SizedBox(
-                height: 20,
+                height: Dimensions.size20,
               ),
               CustomButton(
                 text: 'Create Account',
@@ -199,14 +233,14 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
               SizedBox(
-                height: 15,
+                height: Dimensions.size15,
               ),
               GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  height: 50,
+                  height: Dimensions.size50,
                   width: double.infinity,
                   color: Colors.transparent,
                   child: Center(

@@ -1,10 +1,13 @@
 // imports
-import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../theme/theme_colors.dart';
+import 'package:flutter/services.dart';
+import '../../check_user_state.dart';
+import '../../utils/dimensions.dart';
+import '../../widgets/big_text.dart';
 import 'package:get/get.dart';
+import 'dart:async';
 
-import '../check_user_state.dart';
-import '../utils/dimensions.dart';
 
 // SplashScreen class
 class SplashScreen extends StatefulWidget {
@@ -42,6 +45,11 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(systemOverlayStyle: SystemUiOverlayStyle(
+            // Status bar color
+            systemNavigationBarColor: ThemeColors().white,
+            statusBarColor: ThemeColors().white,
+          ),),
       backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -55,6 +63,8 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             ),
           ),
+          SizedBox(height: Dimensions.size15,),
+          BigText(text: 'Your fridge never been smarter'),
         ],
       ),
     );

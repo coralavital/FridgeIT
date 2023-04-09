@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fridge_it/resources/auth_res.dart';
+import 'package:fridge_it/utils/dimensions.dart';
 import 'package:fridge_it/widgets/custom_button.dart';
 import 'package:fridge_it/widgets/custom_loader.dart';
 import 'package:fridge_it/widgets/text_field.dart';
@@ -38,9 +40,9 @@ class _ResetPasswordState extends State<ResetPassword> {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 16.0,
+        backgroundColor: ThemeColors().background,
+        textColor: ThemeColors().main,
+        fontSize: Dimensions.size15,
       );
     } else {
       _loader.hideLoader();
@@ -49,9 +51,9 @@ class _ResetPasswordState extends State<ResetPassword> {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0,
+        backgroundColor: ThemeColors().background,
+        textColor: ThemeColors().main,
+        fontSize: Dimensions.size15,
       );
     }
   }
@@ -59,7 +61,13 @@ class _ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ThemeColors().background,
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+            // Status bar color
+            systemNavigationBarColor: ThemeColors().background,
+            statusBarColor: ThemeColors().background,
+          ),
         backgroundColor: ThemeColors().background,
         scrolledUnderElevation: 0,
         leading: IconButton(
@@ -73,40 +81,40 @@ class _ResetPasswordState extends State<ResetPassword> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.white,
+          color: ThemeColors().background,
           child: Column(
             children: [
               Text(
                 'Forgot Password',
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: Dimensions.size25,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: ThemeColors().green2,
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: Dimensions.size20,
               ),
               Text(
                 'Enter your email to reset password',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
+                  fontSize: Dimensions.size15,
+                  color: ThemeColors().main,
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: Dimensions.size20,
               ),
               TextFieldWidget(
                 controller: _email,
-                hintText: 'Password',
+                hintText: 'Email',
                 prefixIcon: SvgPicture.asset(
                   'assets/icons/email.svg',
                   fit: BoxFit.none,
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: Dimensions.size20,
               ),
               CustomButton(
                 text: 'Reset password',

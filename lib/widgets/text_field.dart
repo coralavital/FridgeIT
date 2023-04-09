@@ -2,13 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
+import 'package:fridge_it/utils/dimensions.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
-  final dynamic? onSubmitted;
+  final dynamic onSubmitted;
   const TextFieldWidget({
     super.key,
     required this.controller,
@@ -22,23 +23,25 @@ class TextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: 20,
-        right: 20,
-        top: 10,
+        left: Dimensions.size20,
+        right: Dimensions.size20,
+        top: Dimensions.size10,
       ),
       child: Container(
-        height: 50,
+        height: Dimensions.size50,
         width: double.infinity,
         decoration: BoxDecoration(
           color: ThemeColors().main.withOpacity(0.5),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(Dimensions.size15),
         ),
         child: TextField(
+          obscureText: hintText == 'Password' ? true : false,
           controller: controller,
           onSubmitted: onSubmitted,
           cursorColor: ThemeColors().green2,
           decoration: InputDecoration(
             border: InputBorder.none,
+            hoverColor: ThemeColors().background,
             hintText: hintText,
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,

@@ -3,10 +3,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fridge_it/firebase_options.dart';
 import 'package:fridge_it/services/firebase_message.dart';
-import 'package:fridge_it/theme/theme_colors.dart';
-import 'package:fridge_it/widgets/splash.dart';
+import 'package:fridge_it/ui/home/splash.dart';
 import 'package:get/get.dart';
-
 
 final FMessaging messaging = FMessaging();
 
@@ -25,17 +23,15 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        useMaterial3: false,
-        fontFamily: 'Poppins', 
+        useMaterial3: true,
+        fontFamily: 'Poppins',
       ),
       home: const SplashScreen(),
-
     );
   }
 }

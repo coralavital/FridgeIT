@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
+import 'package:fridge_it/utils/dimensions.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -17,20 +18,20 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: Dimensions.size20),
         child: Container(
-          height: 50,
-          width: double.infinity,
+          height: Dimensions.size50,
+          width: Dimensions.size170,
           decoration: BoxDecoration(
             color: ThemeColors().main,
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(Dimensions.size15),
           ),
           child: Center(
             child: Text(
               text,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 16,
+                fontSize: Dimensions.size15,
               ),
             ),
           ),
