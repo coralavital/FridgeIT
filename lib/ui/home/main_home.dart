@@ -46,7 +46,6 @@ class _MainHomeState extends State<MainHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          scrolledUnderElevation: 0,
           toolbarHeight: Dimensions.size15,
           backgroundColor: ThemeColors().background),
       backgroundColor: ThemeColors().background,
@@ -55,7 +54,7 @@ class _MainHomeState extends State<MainHome> {
         padding: EdgeInsets.only(
           left: Dimensions.size15,
           right: Dimensions.size15,
-          bottom: Dimensions.size10,
+          bottom: Dimensions.size5,
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(Dimensions.size20),
