@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.fridge_it">
+    package="com.sce.fridge_it">
    <application
         android:label="FridgeIT"
         android:name="${applicationName}"

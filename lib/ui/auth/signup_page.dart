@@ -159,37 +159,51 @@ class _SignupPageState extends State<SignupPage> {
                   fit: BoxFit.none,
                 ),
               ),
-              Padding(padding: EdgeInsets.only(left: Dimensions.size20), child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: RadioListTile(
-                      title: SmallText(text: "Male"),
-                      value: "male",
-                      activeColor: ThemeColors().main,
-                      groupValue: _gender,
-                      onChanged: (value) {
-                        setState(() {
-                          _gender = value.toString();
-                        });
-                      },
-                    ),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: Dimensions.size20,
+                  right: Dimensions.size20,
+                  top: Dimensions.size10,
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: ThemeColors().main.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(Dimensions.size15),
                   ),
-                  Expanded(
-                    child: RadioListTile(
-                      title: SmallText(text: "Female"),
-                      value: "female",
-                      activeColor: ThemeColors().main,
-                      groupValue: _gender,
-                      onChanged: (value) {
-                        setState(() {
-                          _gender = value.toString();
-                        });
-                      },
-                    ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: RadioListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: SmallText(text: "Male"),
+                          value: "male",
+                          activeColor: ThemeColors().main,
+                          groupValue: _gender,
+                          onChanged: (value) {
+                            setState(() {
+                              _gender = value.toString();
+                            });
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: RadioListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: SmallText(text: "Female"),
+                          value: "female",
+                          activeColor: ThemeColors().main,
+                          groupValue: _gender,
+                          onChanged: (value) {
+                            setState(() {
+                              _gender = value.toString();
+                            });
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),),
+                ),
+              ),
               SizedBox(
                 height: Dimensions.size20,
               ),

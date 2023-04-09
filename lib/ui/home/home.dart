@@ -288,8 +288,7 @@ class _HomePageState extends State<HomePage>
                                   child: SmallText(
                                     text: 'The last 5 detected products',
                                     color: ThemeColors().main,
-                                    fontWeight: FontWeight.w300,
-                                    size: Dimensions.size13,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 );
                               }
