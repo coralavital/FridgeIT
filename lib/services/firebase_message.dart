@@ -3,9 +3,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
+import '../firebase_options.dart';
 import 'dart:convert';
 
-import '../firebase_options.dart';
 
 class FMessaging {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -24,7 +24,7 @@ class FMessaging {
     reference.snapshots().listen((querySnapshot) {
       products = querySnapshot.get("products");
 
-      for (var index = 0; index <= products!.length; index++) {
+      for (var index = 0; index < products!.length; index++) {
         var now = DateTime.now();
         var product = products![index];
         if (product["expiry_date"] != null) {
@@ -122,7 +122,9 @@ class FMessaging {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       print("....................onMessage....................");
       print(
-          "onMessage  title: ${message.notification?.title}; body: ${message.notification?.body}");
+          "onMessage\n"
+          "title: ${message.notification?.title}"
+          "\nbody: ${message.notification?.body}");
 
       BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(
           message.notification!.body.toString(),

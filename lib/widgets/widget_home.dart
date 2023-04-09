@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names
-
-import 'package:flutter/material.dart';
-import 'package:fridge_it/utils/dimensions.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
+import 'package:fridge_it/utils/dimensions.dart';
+import 'package:flutter/material.dart';
 
 class WidgetHome extends StatefulWidget {
   final String title;

@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../services/firestore_service.dart';
+import '../../widgets/custom_toast.dart';
+import 'package:flutter/material.dart';
+import '../../widgets/small_text.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/big_text.dart';
-import '../../widgets/custom_toast.dart';
-import '../../widgets/small_text.dart';
+
 
 class ShoppingList extends StatefulWidget {
   const ShoppingList({super.key});

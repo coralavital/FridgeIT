@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:fridge_it/widgets/small_text.dart';
 import 'package:fridge_it/utils/dimensions.dart';
 import 'package:fridge_it/widgets/big_text.dart';
-import 'package:fridge_it/widgets/small_text.dart';
-
+import 'package:flutter/material.dart';
 import '../theme/theme_colors.dart';
+
 
 class CustomDialog extends StatelessWidget {
   String title;

@@ -1,18 +1,18 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, prefer_const_literals_to_create_immutables
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fridge_it/resources/auth_res.dart';
-import 'package:fridge_it/theme/theme_colors.dart';
 import 'package:fridge_it/ui/auth/reset_password.dart';
-import 'package:fridge_it/ui/auth/signup_page.dart';
-import 'package:fridge_it/ui/home/main_home.dart';
-import 'package:fridge_it/utils/dimensions.dart';
 import 'package:fridge_it/widgets/custom_button.dart';
 import 'package:fridge_it/widgets/custom_loader.dart';
+import 'package:fridge_it/ui/auth/signup_page.dart';
 import 'package:fridge_it/widgets/text_field.dart';
+import 'package:fridge_it/resources/auth_res.dart';
+import 'package:fridge_it/theme/theme_colors.dart';
+import 'package:fridge_it/ui/home/main_home.dart';
+import 'package:fridge_it/utils/dimensions.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

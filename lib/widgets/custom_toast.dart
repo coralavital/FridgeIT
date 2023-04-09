@@ -1,7 +1,5 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:flutter/cupertino.dart';
 import '../theme/theme_colors.dart';
 import '../utils/dimensions.dart';
 
@@ -33,10 +31,9 @@ class CustomToast {
     );
 
     fToast.showToast(
-      child: toast,
-      toastDuration: const Duration(seconds: 3),
-      gravity: ToastGravity.BOTTOM
-    );
+        child: toast,
+        toastDuration: const Duration(seconds: 3),
+        gravity: ToastGravity.BOTTOM);
     return toast;
   }
 }

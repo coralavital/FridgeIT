@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
 import 'package:fridge_it/utils/dimensions.dart';
+import 'package:flutter/material.dart';
 
 class CarouselSliderWidget extends StatelessWidget {
   const CarouselSliderWidget({super.key});

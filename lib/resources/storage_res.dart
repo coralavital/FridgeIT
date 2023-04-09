@@ -2,6 +2,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:uuid/uuid.dart';
 
+
 class StorageRes {
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 

@@ -1,13 +1,11 @@
 // imports
 import 'package:flutter/material.dart';
-import 'package:fridge_it/widgets/small_text.dart';
 import '../../theme/theme_colors.dart';
 import 'package:flutter/services.dart';
 import '../../check_user_state.dart';
-import '../../utils/dimensions.dart';
-import '../../widgets/big_text.dart';
 import 'package:get/get.dart';
 import 'dart:async';
+
 
 // SplashScreen class
 class SplashScreen extends StatefulWidget {
@@ -45,33 +43,25 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ThemeColors().background,
         systemOverlayStyle: SystemUiOverlayStyle(
           // Status bar color
-          systemNavigationBarColor: ThemeColors().white,
-          statusBarColor: ThemeColors().white,
+          systemNavigationBarColor: ThemeColors().background,
+          statusBarColor: ThemeColors().background,
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: ThemeColors().background,
       body: ScaleTransition(
         scale: animation,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                'assets/icons/Icon-FridgeIT.png',
-                width: Dimensions.size30 * 7,
+                'assets/icons/splash_icon.png',
+                width: double.maxFinite,
               ),
-              SizedBox(
-            height: Dimensions.size15,
-          ),
-          SmallText(
-            text: 'Your fridge never been smarter',
-            color: ThemeColors().main,
-            size: Dimensions.size10,
-            fontWeight: FontWeight.w900,
-          ),
             ],
           ),
         ),

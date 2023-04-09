@@ -1,16 +1,15 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fridge_it/resources/auth_res.dart';
-import 'package:fridge_it/utils/dimensions.dart';
 import 'package:fridge_it/widgets/custom_button.dart';
 import 'package:fridge_it/widgets/custom_loader.dart';
+import 'package:fridge_it/resources/auth_res.dart';
 import 'package:fridge_it/widgets/text_field.dart';
-
+import 'package:fridge_it/utils/dimensions.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../theme/theme_colors.dart';
+
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({super.key});

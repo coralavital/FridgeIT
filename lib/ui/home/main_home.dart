@@ -1,16 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
-import 'package:flutter/services.dart';
+import 'package:fridge_it/ui/home/all_products_list.dart';
 import 'package:fridge_it/ui/home/shopping_list.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
-import 'package:fridge_it/ui/home/home.dart';
-import 'package:fridge_it/ui/home/products_list.dart';
-import 'package:fridge_it/ui/home/account.dart';
 import 'package:fridge_it/utils/dimensions.dart';
-
+import 'package:fridge_it/ui/home/account.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../services/firebase_message.dart';
+import 'package:fridge_it/ui/home/home.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
+
 
 class MainHome extends StatefulWidget {
   const MainHome({super.key});

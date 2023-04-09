@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_constructors
-
-import 'package:flutter/material.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
 import 'package:fridge_it/widgets/small_text.dart';
-
+import 'package:flutter/material.dart';
 import '../utils/dimensions.dart';
+
 
 class CustomContainer extends StatefulWidget {
   final String title;
@@ -26,7 +25,8 @@ class _CustomContainerState extends State<CustomContainer> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: Dimensions.size10, bottom: Dimensions.size7),
+      padding:
+          EdgeInsets.only(right: Dimensions.size10, bottom: Dimensions.size7),
       child: Container(
         width: Dimensions.size130,
         padding: EdgeInsets.all(Dimensions.size15),
@@ -46,10 +46,11 @@ class _CustomContainerState extends State<CustomContainer> {
               height: Dimensions.size5,
             ),
             CircleAvatar(
-  radius: Dimensions.size30, // Image radius
-  backgroundImage: NetworkImage(widget.image.toString(),),
-),
-
+              radius: Dimensions.size30, // Image radius
+              backgroundImage: NetworkImage(
+                widget.image.toString(),
+              ),
+            ),
             SizedBox(
               height: Dimensions.size5,
             ),
@@ -62,7 +63,8 @@ class _CustomContainerState extends State<CustomContainer> {
                         width: Dimensions.size7,
                         decoration: BoxDecoration(
                           color: Colors.green,
-                          borderRadius: BorderRadius.circular(Dimensions.size13),
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.size13),
                         ),
                       )
                     : SizedBox(),
@@ -73,7 +75,9 @@ class _CustomContainerState extends State<CustomContainer> {
                     ? Text(
                         widget.expiriation_date!,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: Dimensions.size10, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                            fontSize: Dimensions.size10,
+                            fontWeight: FontWeight.w500),
                         overflow: TextOverflow.ellipsis,
                       )
                     : SizedBox()

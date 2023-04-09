@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
 import 'package:fridge_it/utils/dimensions.dart';
+import 'package:flutter/material.dart';
 
 class CustomLoader {
   static CustomLoader? _customLoader;

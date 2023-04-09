@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:fridge_it/ui/auth/login_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fridge_it/ui/home/main_home.dart';
+import 'package:flutter/material.dart';
 
 class CheckUserState extends StatefulWidget {
   const CheckUserState({super.key});

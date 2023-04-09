@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
-
-import 'package:flutter/material.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
 import 'package:fridge_it/utils/dimensions.dart';
+import 'package:flutter/material.dart';
+
 
 class CustomButton extends StatelessWidget {
   final String text;

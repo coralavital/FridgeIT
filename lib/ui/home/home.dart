@@ -2,11 +2,12 @@ import 'package:fridge_it/widgets/custom_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../widgets/big_text.dart';
 import '../../widgets/small_text.dart';
 import 'package:flutter/material.dart';
+import '../../widgets/big_text.dart';
 import '../../utils/dimensions.dart';
 import 'package:intl/intl.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -175,6 +176,7 @@ class _HomePageState extends State<HomePage>
                             ]));
                           } else {
                             return GridView.builder(
+                              padding: EdgeInsets.only(left: Dimensions.size5),
                               itemCount: snapshot.data!['products'].length,
                               physics: const BouncingScrollPhysics(),
                               itemBuilder: ((context, index) {

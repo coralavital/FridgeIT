@@ -1,9 +1,9 @@
+import 'package:fridge_it/widgets/small_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fridge_it/widgets/small_text.dart';
-
 import '../theme/theme_colors.dart';
 import '../utils/dimensions.dart';
+
 
 class CustomRadioWidget<T> extends StatelessWidget {
   final SmallText title;

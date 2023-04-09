@@ -1,19 +1,18 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
-
-import 'dart:math';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fridge_it/resources/auth_res.dart';
 import 'package:fridge_it/widgets/custom_button.dart';
 import 'package:fridge_it/widgets/custom_loader.dart';
+import 'package:fridge_it/resources/auth_res.dart';
 import 'package:fridge_it/widgets/small_text.dart';
-
-import '../../theme/theme_colors.dart';
-import '../../utils/dimensions.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../widgets/custom_radio.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
+import '../../theme/theme_colors.dart';
 import '../../widgets/text_field.dart';
+import '../../utils/dimensions.dart';
+import 'dart:math';
+
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
