@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-import 'package:fridge_it/ui/home/all_products_list.dart';
+import 'package:fridge_it/ui/home/products_list.dart';
 import 'package:fridge_it/ui/home/shopping_list.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
 import 'package:fridge_it/utils/dimensions.dart';

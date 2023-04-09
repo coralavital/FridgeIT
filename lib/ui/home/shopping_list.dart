@@ -57,7 +57,7 @@ class _ShoppingList extends State<ShoppingList>
             children: [
               BigText(
                   text: 'Shopping List',
-                  size: Dimensions.size30,
+                  size: Dimensions.size25,
                   fontWeight: FontWeight.bold,
                   color: ThemeColors().main),
             ],

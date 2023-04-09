@@ -6,6 +6,8 @@ import '../../check_user_state.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
+import '../../utils/dimensions.dart';
+
 
 // SplashScreen class
 class SplashScreen extends StatefulWidget {
@@ -53,7 +55,8 @@ class _SplashScreenState extends State<SplashScreen>
       backgroundColor: ThemeColors().background,
       body: ScaleTransition(
         scale: animation,
-        child: Center(
+        child: Padding(
+          padding: EdgeInsets.only(bottom: Dimensions.size150),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

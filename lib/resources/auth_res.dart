@@ -15,7 +15,7 @@ class AuthRes {
     String password,
     List products,
     List shopping_list,
-    List products_history,
+    List recently_detected_products,
   ) async {
     String res = 'Some error accoured';
     if (userName.isNotEmpty && email.isNotEmpty && password.isNotEmpty && gender.isNotEmpty) {
@@ -30,7 +30,7 @@ class AuthRes {
           'profile_picture_url': avatar,
           'products': products,
           'shopping_list': shopping_list,
-          'products_history': products_history,
+          'recently_detected_products': recently_detected_products,
         });
         res = 'success';
       } catch (error) {

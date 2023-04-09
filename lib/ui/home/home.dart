@@ -8,7 +8,6 @@ import '../../widgets/big_text.dart';
 import '../../utils/dimensions.dart';
 import 'package:intl/intl.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -120,21 +119,15 @@ class _HomePageState extends State<HomePage>
                     height: Dimensions.size20,
                   ),
                   //In progress section.
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      BigText(
-                        text: 'Recently Detected Products',
-                        textAlign: TextAlign.center,
-                        color: ThemeColors().main,
-                        size: Dimensions.size15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      SizedBox(
-                        width: Dimensions.size15,
-                      ),
-                    ],
+                  Padding(
+                    padding: EdgeInsets.only(left: Dimensions.size5),
+                    child: BigText(
+                      text: 'Recently Detected Products',
+                      textAlign: TextAlign.center,
+                      color: ThemeColors().main,
+                      size: Dimensions.size15,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(
                     height: Dimensions.size15,
@@ -151,55 +144,67 @@ class _HomePageState extends State<HomePage>
                         if (!snapshot.hasData) {
                           return Container();
                         } else {
-                          if (snapshot.data!['products'].length == 0) {
-                            return Center(
+                          if (snapshot
+                                  .data!['recently_detected_products'].length ==
+                              0) {
+                            return Padding(
+                                padding:
+                                    EdgeInsets.only(left: Dimensions.size5),
                                 child: Column(children: [
-                              SizedBox(
-                                height: Dimensions.size30,
-                              ),
-                              AnimatedIcon(
-                                icon: AnimatedIcons.list_view,
-                                color: ThemeColors().light1,
-                                progress: animation,
-                                size: Dimensions.size30,
-                                semanticLabel: 'Loadding',
-                              ),
-                              SizedBox(
-                                height: Dimensions.size15,
-                              ),
-                              SmallText(
-                                text: 'There is no products yet',
-                                size: Dimensions.size15,
-                                fontWeight: FontWeight.w500,
-                                color: ThemeColors().main,
-                              ),
-                            ]));
+                                  SizedBox(
+                                    height: Dimensions.size70,
+                                  ),
+                                  AnimatedIcon(
+                                    icon: AnimatedIcons.list_view,
+                                    color: ThemeColors().light1,
+                                    progress: animation,
+                                    size: Dimensions.size30,
+                                    semanticLabel: 'Loadding',
+                                  ),
+                                  SizedBox(
+                                    height: Dimensions.size15,
+                                  ),
+                                  SmallText(
+                                    textAlign: TextAlign.center,
+                                    text:
+                                        'There is no recently\ndetected products yet',
+                                    size: Dimensions.size15,
+                                    fontWeight: FontWeight.w500,
+                                    color: ThemeColors().main,
+                                  ),
+                                ]));
                           } else {
                             return GridView.builder(
                               padding: EdgeInsets.only(left: Dimensions.size5),
-                              itemCount: snapshot.data!['products'].length,
+                              itemCount: snapshot
+                                  .data!['recently_detected_products'].length,
                               physics: const BouncingScrollPhysics(),
                               itemBuilder: ((context, index) {
-                                if (snapshot.data!['products'][index]
-                                        ['expiry_date'] !=
+                                if (snapshot.data!['recently_detected_products']
+                                        [index]['expiry_date'] !=
                                     null) {
                                   var a = DateTime.parse(snapshot
-                                      .data!['products'][index]['expiry_date']
+                                      .data!['recently_detected_products']
+                                          [index]['expiry_date']
                                       .toString());
                                   var time = DateFormat('dd/MM/yyyy').format(a);
                                   return CustomContainer(
-                                    title: snapshot.data!['products'][index]
-                                        ['name'],
-                                    image: snapshot.data!['products'][index]
-                                        ['image'],
+                                    title: snapshot
+                                            .data!['recently_detected_products']
+                                        [index]['name'],
+                                    image: snapshot
+                                            .data!['recently_detected_products']
+                                        [index]['image'],
                                     expiriation_date: time,
                                   );
                                 } else {
                                   return CustomContainer(
-                                    title: snapshot.data!['products'][index]
-                                        ['name'],
-                                    image: snapshot.data!['products'][index]
-                                        ['image'],
+                                    title: snapshot
+                                            .data!['recently_detected_products']
+                                        [index]['name'],
+                                    image: snapshot
+                                            .data!['recently_detected_products']
+                                        [index]['image'],
                                   );
                                 }
                               }),
