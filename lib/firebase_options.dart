@@ -15,8 +15,6 @@ import 'package:flutter/foundation.dart'
 /// );
 /// ```
 class DefaultFirebaseOptions {
-  String firebase_message_token = 'AAAAroemubE:APA91bH_-j0J5H5ADNnEOGLYRpPnMjt5xni5ZLCEef6JjRqKY_sGuRC3Qkfl3UuKpp_2lL3XGKUh6NzMSjBcoIRE1Qmv_pLvUDFl9L2wB3DcjreOmP8JdueV7Q11bshp2D8qPnM7eDRe';
-
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return web;
@@ -58,7 +56,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCxFSm_WxEHXsNYXAOs_AQsVFMgR9O-WwU',
-    appId: '1:749600160177:android:0a8f4553e301bf58776590',
+    appId: '1:749600160177:android:518bcc511192d6e4776590',
     messagingSenderId: '749600160177',
     projectId: 'fridgeit-d17ae',
     databaseURL: 'https://fridgeit-d17ae-default-rtdb.europe-west1.firebasedatabase.app',

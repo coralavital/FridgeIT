@@ -68,7 +68,7 @@ class FMessaging {
       await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
           headers: <String, String>{
             'Content-Type': 'application/json',
-            'Authorization': 'key=${firebaseOptions.firebase_message_token}'
+            'Authorization': 'key=AAAAroemubE:APA91bH_-j0J5H5ADNnEOGLYRpPnMjt5xni5ZLCEef6JjRqKY_sGuRC3Qkfl3UuKpp_2lL3XGKUh6NzMSjBcoIRE1Qmv_pLvUDFl9L2wB3DcjreOmP8JdueV7Q11bshp2D8qPnM7eDRe'
           },
           body: jsonEncode(<String, dynamic>{
             'prioriity': 'high',
