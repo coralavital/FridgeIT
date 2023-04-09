@@ -120,50 +120,18 @@ class _HomePageState extends State<HomePage>
                   ),
                   //In progress section.
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Products',
-                        style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: Dimensions.size15,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      BigText(
+                        text: 'Recently Detected Products',
+                        textAlign: TextAlign.center,
+                        color: ThemeColors().main,
+                        size: Dimensions.size15,
+                        fontWeight: FontWeight.bold,
                       ),
                       SizedBox(
                         width: Dimensions.size15,
-                      ),
-                      Container(
-                        height: Dimensions.size20,
-                        width: Dimensions.size160,
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.size10),
-                        ),
-                        child: StreamBuilder(
-                          stream: _firestore
-                              .collection(_auth.currentUser!.uid)
-                              .doc('user_data')
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return Container();
-                            } else {
-                              if (snapshot.data!['products'].length == 0) {
-                                return Container();
-                              } else {
-                                return Center(
-                                  child: SmallText(
-                                    text: 'The last 5 detected products',
-                                    color: ThemeColors().main,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                );
-                              }
-                            }
-                          },
-                        ),
                       ),
                     ],
                   ),
@@ -171,54 +139,44 @@ class _HomePageState extends State<HomePage>
                     height: Dimensions.size15,
                   ),
                   // //In progress Stream bulder.
-                  Center(
-                    child: SizedBox(
-                      height: Dimensions.size150,
-                      child: StreamBuilder(
-                        stream: _firestore
-                            .collection(_auth.currentUser!.uid)
-                            .doc('user_data')
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return Container();
+                  SizedBox(
+                    height: Dimensions.size500,
+                    child: StreamBuilder(
+                      stream: _firestore
+                          .collection(_auth.currentUser!.uid)
+                          .doc('user_data')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Container();
+                        } else {
+                          if (snapshot.data!['products'].length == 0) {
+                            return Center(
+                                child: Column(children: [
+                              SizedBox(
+                                height: Dimensions.size30,
+                              ),
+                              AnimatedIcon(
+                                icon: AnimatedIcons.list_view,
+                                color: ThemeColors().light1,
+                                progress: animation,
+                                size: Dimensions.size30,
+                                semanticLabel: 'Loadding',
+                              ),
+                              SizedBox(
+                                height: Dimensions.size15,
+                              ),
+                              SmallText(
+                                text: 'There is no products yet',
+                                size: Dimensions.size15,
+                                fontWeight: FontWeight.w500,
+                                color: ThemeColors().main,
+                              ),
+                            ]));
                           } else {
-                            int count = 0;
-                            if ((snapshot.data!['products'].length >
-                                        0 &&
-                                    snapshot.data!['products'].length <= 5)){
-                              count = snapshot.data!['products'].length;
-                            } else if (snapshot.data!['products'].length > 5) {
-                              count = 5;
-                              }
-                              else if (snapshot.data!['products'].length == 0) {
-                              return Center(
-                                  child: Column(children: [
-                                SizedBox(
-                                  height: Dimensions.size30,
-                                ),
-                                AnimatedIcon(
-                                  icon: AnimatedIcons.list_view,
-                                  color: ThemeColors().light1,
-                                  progress: animation,
-                                  size: Dimensions.size30,
-                                  semanticLabel: 'Show menu',
-                                ),
-                                SizedBox(
-                                  height: Dimensions.size15,
-                                ),
-                                SmallText(
-                                  text: 'There is no products yet',
-                                  size: Dimensions.size15,
-                                  fontWeight: FontWeight.w500,
-                                  color: ThemeColors().main,
-                                ),
-                              ]));
-                            }
-                            return ListView.builder(
-                              itemCount: count,
+                            return GridView.builder(
+                              itemCount: snapshot.data!['products'].length,
                               physics: const BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
                               itemBuilder: ((context, index) {
                                 if (snapshot.data!['products'][index]
                                         ['expiry_date'] !=
@@ -243,142 +201,16 @@ class _HomePageState extends State<HomePage>
                                   );
                                 }
                               }),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                childAspectRatio:
+                                    Dimensions.size80 / Dimensions.size80,
+                                crossAxisCount: 2,
+                              ),
                             );
                           }
-                        },
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'History',
-                        style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: Dimensions.size15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        width: Dimensions.size15,
-                      ),
-                      Container(
-                        height: Dimensions.size20,
-                        width: Dimensions.size160,
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.size10),
-                        ),
-                        child: StreamBuilder(
-                          stream: _firestore
-                              .collection(_auth.currentUser!.uid)
-                              .doc('user_data')
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return Container();
-                            } else {
-                              if (snapshot.data!['products_history'].length ==
-                                  0) {
-                                return Container();
-                              } else {
-                                return Center(
-                                  child: SmallText(
-                                    text: 'The last 5 detected products',
-                                    color: ThemeColors().main,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                );
-                              }
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: Dimensions.size15,
-                  ),
-                  // //In progress Stream bulder.
-                  Center(
-                    child: SizedBox(
-                      height: Dimensions.size150,
-                      child: StreamBuilder(
-                        stream: _firestore
-                            .collection(_auth.currentUser!.uid)
-                            .doc('user_data')
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return Container();
-                          } else {
-                            int count = 0;
-                            if ((snapshot.data!['products_history'].length >
-                                        0 &&
-                                    snapshot.data!['products_history'].length <= 5)){
-                              count = snapshot.data!['products_history'].length;
-                            } else if (snapshot.data!['products_history'].length > 5) {
-                              count = 5;
-                              }
-                              else if (snapshot.data!['products'].length == 0) {
-                              return Center(
-                                  child: Column(children: [
-                                SizedBox(
-                                  height: Dimensions.size30,
-                                ),
-                                AnimatedIcon(
-                                  icon: AnimatedIcons.list_view,
-                                  color: ThemeColors().light1,
-                                  progress: animation,
-                                  size: Dimensions.size30,
-                                  semanticLabel: 'Show menu',
-                                ),
-                                SizedBox(
-                                  height: Dimensions.size15,
-                                ),
-                                SmallText(
-                                  text: 'There is no products yet',
-                                  size: Dimensions.size15,
-                                  fontWeight: FontWeight.w500,
-                                  color: ThemeColors().main,
-                                ),
-                              ]));
-                            }
-                            return ListView.builder(
-                              itemCount: count,
-                              physics: const BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: ((context, index) {
-                                if (snapshot.data!['products_history'][index]
-                                        ['expiry_date'] !=
-                                    null) {
-                                  var a = DateTime.parse(snapshot
-                                      .data!['products_history'][index]
-                                          ['expiry_date']
-                                      .toString());
-                                  var time = DateFormat('dd/MM/yyyy').format(a);
-                                  return CustomContainer(
-                                    title: snapshot.data!['products_history']
-                                        [index]['name'],
-                                    image: snapshot.data!['products_history']
-                                        [index]['image'],
-                                    expiriation_date: time,
-                                  );
-                                } else {
-                                  return CustomContainer(
-                                    title: snapshot.data!['products_history']
-                                        [index]['name'],
-                                    image: snapshot.data!['products_history']
-                                        [index]['image'],
-                                  );
-                                }
-                              }),
-                            );
-                          }
-                        },
-                      ),
+                        }
+                      },
                     ),
                   ),
                 ],

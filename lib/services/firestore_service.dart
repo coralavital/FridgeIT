@@ -15,7 +15,7 @@ class FirebaseFirestoreService {
       if (querySnapshot.docs.isNotEmpty) {
         for (var doc in querySnapshot.docs.toList()) {
           if (doc.id == "user_data") {
-            document = doc['products'];
+            document = doc['all_detected_products'];
           }
         }
         return document;

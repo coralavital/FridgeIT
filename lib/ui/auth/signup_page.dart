@@ -12,6 +12,7 @@ import 'package:fridge_it/widgets/small_text.dart';
 
 import '../../theme/theme_colors.dart';
 import '../../utils/dimensions.dart';
+import '../../widgets/custom_radio.dart';
 import '../../widgets/text_field.dart';
 
 class SignupPage extends StatefulWidget {
@@ -171,34 +172,28 @@ class _SignupPageState extends State<SignupPage> {
                     borderRadius: BorderRadius.circular(Dimensions.size15),
                   ),
                   child: Row(
-                    children: [
-                      Expanded(
-                        child: RadioListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: SmallText(text: "Male"),
-                          value: "male",
-                          activeColor: ThemeColors().main,
-                          groupValue: _gender,
-                          onChanged: (value) {
-                            setState(() {
-                              _gender = value.toString();
-                            });
-                          },
-                        ),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CustomRadioWidget(
+                        title: SmallText(text: "Male", size: Dimensions.size15, fontWeight: FontWeight.w300, color: Colors.black54,),
+                        value: "male",
+                        groupValue: _gender,
+                        onChanged: (String value) {
+                          setState(() {
+                            _gender = value;
+                          });
+                        },
                       ),
-                      Expanded(
-                        child: RadioListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: SmallText(text: "Female"),
-                          value: "female",
-                          activeColor: ThemeColors().main,
-                          groupValue: _gender,
-                          onChanged: (value) {
-                            setState(() {
-                              _gender = value.toString();
-                            });
-                          },
-                        ),
+                      SizedBox(width: Dimensions.size50,),
+                      CustomRadioWidget(
+                        title: SmallText(text: "Female", size: Dimensions.size15, fontWeight: FontWeight.w300, color: Colors.black54,),
+                        value: "female",
+                        groupValue: _gender,
+                        onChanged: (String value) {
+                          setState(() {
+                            _gender = value;
+                          });
+                        },
                       ),
                     ],
                   ),

@@ -26,7 +26,7 @@ class SmallText extends StatelessWidget {
       style: TextStyle(
         color: color,
         fontWeight: fontWeight.value == 0 ? FontWeight.normal : fontWeight,
-        fontFamily: 'Alkatra',
+        fontFamily: 'Poppins',
         fontSize: size,
         height: height,
       ),

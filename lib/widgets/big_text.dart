@@ -17,7 +17,7 @@ class BigText extends StatelessWidget {
     this.color = const Color(0xFF332d2b),
     required this.text,
     this.overflow = TextOverflow.ellipsis,
-    this.fontFamily = 'Alkatra',
+    this.fontFamily = 'Poppins',
     this.size = 0,
     this.textAlign = TextAlign.start,
   }) : super(key: key);

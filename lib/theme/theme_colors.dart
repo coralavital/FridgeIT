@@ -1,4 +1,4 @@
-import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
 
 class ThemeColors {
   Color main = const Color.fromARGB(255, 164, 188, 146);
@@ -9,4 +9,5 @@ class ThemeColors {
   Color background = const Color.fromARGB(255, 255, 244, 224);
   Color cream = const Color.fromARGB(255, 250, 237, 205);
   Color white = const Color.fromARGB(255, 255, 255, 255);
+  Color black = Colors.black54;
 }

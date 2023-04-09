@@ -31,109 +31,114 @@ class _ProfilePage extends State<ProfilePage> {
         if (!snapshot.hasData) {
           return Container();
         } else {
-          return Scaffold(backgroundColor: ThemeColors().background, body:Padding(
-              padding: EdgeInsets.all(Dimensions.size15),
-              child: ListView(
-                children: [
-                  Column(
+          return Scaffold(
+              backgroundColor: ThemeColors().background,
+              body: Padding(
+                  padding: EdgeInsets.all(Dimensions.size15),
+                  child: ListView(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(Dimensions.size20),
-                        child: Image(
-                          image: NetworkImage(
-                              snapshot.data!['profile_picture_url']),
-                        ),
+                      Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(Dimensions.size20),
+                            child: Image(
+                              image: NetworkImage(
+                                  snapshot.data!['profile_picture_url']),
+                            ),
+                          ),
+                          BigText(
+                            text: snapshot.data!['user_name'] +
+                                ' ' +
+                                snapshot.data!['sur_name'],
+                            color: ThemeColors().main,
+                          )
+                        ],
                       ),
-                      BigText(
-                        text: snapshot.data!['user_name'] +
-                            ' ' +
-                            snapshot.data!['sur_name'],
-                        color: ThemeColors().main,
-                      )
+                      SizedBox(
+                        height: Dimensions.size20,
+                      ),
+                      SettingsGroup(
+                        items: [
+                          SettingsItem(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CustomDialog(
+                                      title: 'About Us',
+                                      message:
+                                          "At FridgeIT, we're building new and innovative ways to help people understand and talk about sustainability"
+                                          "and the makeup of our company reflects the diverse perspectives of the people who use our technologies."
+                                          "The product is designed to record products that are in the refrigerator and in addition to allow products to"
+                                          "be scanned in order to get the expiration date of products and to help people keep track of the products they"
+                                          "have and the expiration date of these products.",
+                                    );
+                                  });
+                            },
+                            icons: Icons.info_rounded,
+                            iconStyle: IconStyle(
+                              backgroundColor: ThemeColors().green1,
+                            ),
+                            title: 'About',
+                            // subtitle: "Learn more about Ziar'App",
+                          ),
+                          SettingsItem(
+                            onTap: () {
+                              // BabyDialog();
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CustomDialog(
+                                      title: 'How To Use',
+                                      message:
+                                          "In the personal area you can view your user's details"
+                                          "and perform actions such as changing the password,"
+                                          "logging out of the system and deleting the account",
+                                    );
+                                  });
+                            },
+                            icons: Icons.help_center_rounded,
+                            iconStyle: IconStyle(
+                              backgroundColor: ThemeColors().light1,
+                            ),
+                            title: 'Help',
+                            // subtitle: "Learn more about Ziar'App",
+                          ),
+                        ],
+                      ),
+                      // You can add a settings title
+                      SettingsGroup(
+                        items: [
+                          SettingsItem(
+                            onTap: () {
+                              FirebaseAuth.instance.signOut();
+                            },
+                            icons: Icons.exit_to_app_rounded,
+                            iconStyle: IconStyle(
+                              backgroundColor: ThemeColors().light2,
+                            ),
+                            title: "Sign Out",
+                          ),
+                          SettingsItem(
+                            onTap: () {
+                              User user = FirebaseAuth.instance.currentUser!;
+                              user.delete();
+                            },
+                            icons: CupertinoIcons.delete_solid,
+                             iconStyle: IconStyle(
+                              backgroundColor: ThemeColors().green2,
+                            ),
+                            title: "Delete account",
+                            titleStyle: TextStyle(
+                              
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
-                  ),
-                  SizedBox(
-                    height: Dimensions.size20,
-                  ),
-                  SettingsGroup(
-                    items: [
-                      SettingsItem(
-                        backgroundColor: ThemeColors().background,
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return CustomDialog(
-                                  title: 'About',
-                                  message:
-                                      "At FridgeIT, we're building new and innovative ways to help people understand and talk about sustainability"
-                                      "and the makeup of our company reflects the diverse perspectives of the people who use our technologies."
-                                      "The product is designed to record products that are in the refrigerator and in addition to allow products to" 
-                                      "be scanned in order to get the expiration date of products and to help people keep track of the products they" 
-                                      "have and the expiration date of these products.",
-                                );
-                              });
-                        },
-                        icons: Icons.info_rounded,
-                        iconStyle: IconStyle(
-                          backgroundColor: ThemeColors().green1,
-                        ),
-                        title: 'About',
-                        // subtitle: "Learn more about Ziar'App",
-                      ),
-                      SettingsItem(
-                        onTap: () {
-                          // BabyDialog();
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return CustomDialog(
-                                  title: 'Help',
-                                  message:
-                                      "In the personal area you can view your user's details"
-                                      "and perform actions such as changing the password,"
-                                      "logging out of the system and deleting the account",
-                                );
-                              });
-                        },
-                        icons: Icons.help_center_rounded,
-                        iconStyle: IconStyle(
-                          backgroundColor: ThemeColors().green2,
-                        ),
-                        title: 'Help',
-                        // subtitle: "Learn more about Ziar'App",
-                      ),
-                    ],
-                  ),
-                  // You can add a settings title
-                  SettingsGroup(
-                    
-                    items: [
-                      SettingsItem(
-                        backgroundColor: ThemeColors().background,
-                        onTap: () {
-                          FirebaseAuth.instance.signOut();
-                        },
-                        icons: Icons.exit_to_app_rounded,
-                        title: "Sign Out",
-                      ),
-                      SettingsItem(
-                        backgroundColor: ThemeColors().background,
-                        onTap: () {
-                          User user = FirebaseAuth.instance.currentUser!;
-                          user.delete();
-                        },
-                        icons: CupertinoIcons.delete_solid,
-                        title: "Delete account",
-                        titleStyle: TextStyle(
-                          color: ThemeColors().main,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              )));
+                  )));
         }
       }),
     );

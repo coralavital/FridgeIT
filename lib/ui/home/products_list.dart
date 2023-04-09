@@ -55,8 +55,8 @@ class _ProductsList extends State<ProductsList>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               BigText(
-                  text: 'Products List',
-                  size: Dimensions.size30,
+                  text: 'All Detected Products',
+                  size: Dimensions.size25,
                   fontWeight: FontWeight.bold,
                   color: ThemeColors().main),
             ],
@@ -75,7 +75,7 @@ class _ProductsList extends State<ProductsList>
                   if (!snapshot.hasData) {
                     return Container();
                   } else {
-                    if (snapshot.data!['products'].length == 0) {
+                    if (snapshot.data!['all_detected_products'].length == 0) {
                       return Center(
                         child: Column(children: [
                           SizedBox(
@@ -101,7 +101,7 @@ class _ProductsList extends State<ProductsList>
                       );
                     } else {
                       return ListView.builder(
-                          itemCount: snapshot.data!['products'].length,
+                          itemCount: snapshot.data!['all_detected_products'].length,
                           itemBuilder: (_, index) {
                             return SizedBox(
                               height: Dimensions.size100,
@@ -120,7 +120,7 @@ class _ProductsList extends State<ProductsList>
                                         image: DecorationImage(
                                           fit: BoxFit.cover,
                                           image: NetworkImage(
-                                              snapshot.data!['products'][index]
+                                              snapshot.data!['all_detected_products'][index]
                                                   ['image']),
                                         ),
                                         borderRadius: BorderRadius.circular(
@@ -139,14 +139,14 @@ class _ProductsList extends State<ProductsList>
                                               MainAxisAlignment.center,
                                           children: [
                                             BigText(
-                                              text: snapshot.data!['products']
+                                              text: snapshot.data!['all_detected_products']
                                                   [index]['name'],
                                               size: Dimensions.size20,
                                               color: ThemeColors().main,
                                             ),
                                           ],
                                         ),
-                                        if (snapshot.data!['products'][index]
+                                        if (snapshot.data!['all_detected_products'][index]
                                                 ['expiry_date'] !=
                                             null)
                                           Row(
@@ -160,7 +160,7 @@ class _ProductsList extends State<ProductsList>
                                                 size: Dimensions.size10,
                                               ),
                                               SmallText(
-                                                text: snapshot.data!['products']
+                                                text: snapshot.data!['all_detected_products']
                                                         [index]['expiry_date']
                                                     .toString(),
                                                 textAlign: TextAlign.center,
@@ -179,7 +179,7 @@ class _ProductsList extends State<ProductsList>
                                                         .toString()
                                                         .contains(snapshot
                                                                     .data![
-                                                                'products']
+                                                                'all_detected_products']
                                                             [index]['name']) ==
                                                     false)
                                                 ? TextButton(
@@ -205,10 +205,10 @@ class _ProductsList extends State<ProductsList>
                                                     onPressed: () {
                                                       fbS.addToShoppingList(
                                                           snapshot.data![
-                                                                  'products']
+                                                                  'all_detected_products']
                                                               [index]['name'],
                                                           snapshot.data![
-                                                                  'products']
+                                                                  'all_detected_products']
                                                               [index]['image'],
                                                           1);
                                                       toast = CustomToast(
