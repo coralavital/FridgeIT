@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import '../../theme/theme_colors.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/big_text.dart';
+import '../../widgets/custom_button.dart';
 import '../../widgets/dialog.dart';
-
+import '../../widgets/small_text.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -48,9 +49,9 @@ class _ProfilePage extends State<ProfilePage> {
                             ),
                           ),
                           BigText(
-                            text: snapshot.data!['user_name'] +
+                            text: snapshot.data!['first_name'] +
                                 ' ' +
-                                snapshot.data!['sur_name'],
+                                snapshot.data!['last_name'],
                             color: ThemeColors().main,
                           )
                         ],
@@ -66,13 +67,20 @@ class _ProfilePage extends State<ProfilePage> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return CustomDialog(
-                                      title: 'About Us',
-                                      message:
-                                          "At FridgeIT, we're building new and innovative ways to help people understand and talk about sustainability"
-                                          "and the makeup of our company reflects the diverse perspectives of the people who use our technologies."
-                                          "The product is designed to record products that are in the refrigerator and in addition to allow products to"
-                                          "be scanned in order to get the expiration date of products and to help people keep track of the products they"
-                                          "have and the expiration date of these products.",
+                                      title: BigText(
+                                        text: "About Us",
+                                        size: Dimensions.size20,
+                                        fontWeight: FontWeight.w900,
+                                        color: ThemeColors().green1,
+                                      ),
+                                      message: SmallText(
+                                        textAlign: TextAlign.center,
+                                        text:
+                                            "At FridgeIT, we build new and innovative ways to help people understand and talk about sustainability and the structure of our company reflects the diverse perspectives of the people who use our technologies."
+                                            "The product is designed to identify products that are in the refrigerator and in addition to enable identification of expiration dates and thus help people track the products in their possession and the expiration date of these products.",
+                                        color: ThemeColors().black,
+                                        size: Dimensions.size15,
+                                      ),
                                     );
                                   });
                             },
@@ -85,16 +93,25 @@ class _ProfilePage extends State<ProfilePage> {
                           ),
                           SettingsItem(
                             onTap: () {
-                              // BabyDialog();
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return CustomDialog(
-                                      title: 'How To Use',
-                                      message:
-                                          "In the personal area you can view your user's details"
-                                          "and perform actions such as changing the password,"
-                                          "logging out of the system and deleting the account",
+                                      title: BigText(
+                                        text: 'Hou to use',
+                                        size: Dimensions.size20,
+                                        fontWeight: FontWeight.w900,
+                                        color: ThemeColors().green1,
+                                      ),
+                                      message: SmallText(
+                                        textAlign: TextAlign.center,
+                                        text:
+                                            "In the personal area you can view your user's details"
+                                            "and perform actions such as changing the password,"
+                                            "logging out of the system and deleting the account",
+                                        color: ThemeColors().black,
+                                        size: Dimensions.size15,
+                                      ),
                                     );
                                   });
                             },
@@ -122,16 +139,45 @@ class _ProfilePage extends State<ProfilePage> {
                           ),
                           SettingsItem(
                             onTap: () {
-                              User user = FirebaseAuth.instance.currentUser!;
-                              user.delete();
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CustomDialog(
+                                      title: BigText(text: 'Delete Account', size: Dimensions.size20,
+                                        fontWeight: FontWeight.w900,
+                                        color: ThemeColors().green1,),
+                                      message: SmallText(
+                                        textAlign: TextAlign.center,
+                                        text: "Are you sure you want to delete your account?",
+                                        color: ThemeColors().black,
+                                        size: Dimensions.size15,
+                                      ),
+                                      button1: CustomButton(                     
+                                              text: 'Yes',
+                                              size: Dimensions.size60,
+                                              onTap: () {
+                                                User user = _auth.currentUser!;
+                                                user.delete();
+                                              },
+                                            ),
+                                      button2: CustomButton(
+                                              text: 'No',
+                                              size: Dimensions.size60,
+                                              onTap: () {
+                                                Navigator.pop(
+                                                    context, 'Cancel');
+                                              },
+                                            ),
+                                    );
+                                  });
                             },
+
                             icons: CupertinoIcons.delete_solid,
-                             iconStyle: IconStyle(
+                            iconStyle: IconStyle(
                               backgroundColor: ThemeColors().green2,
                             ),
                             title: "Delete account",
                             titleStyle: TextStyle(
-                              
                               fontWeight: FontWeight.bold,
                             ),
                           ),

@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage>
                   } else {
                     return BigText(
                         text:
-                            'Hello, ${snapshot.data!.get('user_name')} ${snapshot.data!.get('sur_name')}',
+                            'Hello, ${snapshot.data!.get('first_name')} ${snapshot.data!.get('last_name')}',
                         size: Dimensions.size20,
                         fontWeight: FontWeight.bold,
                         color: ThemeColors().main);

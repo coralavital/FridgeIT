@@ -1,27 +1,30 @@
+import 'package:fridge_it/widgets/custom_button.dart';
 import 'package:fridge_it/widgets/small_text.dart';
 import 'package:fridge_it/utils/dimensions.dart';
 import 'package:fridge_it/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 import '../theme/theme_colors.dart';
 
-
 class CustomDialog extends StatelessWidget {
-  String title;
-  String message;
+  BigText title;
+  SmallText message;
+  CustomButton? button1;
+  CustomButton? button2;
 
-  CustomDialog({
-    super.key,
-    required this.title,
-    required this.message,
-  });
+  CustomDialog(
+      {super.key,
+      required this.title,
+      required this.message,
+      this.button1,
+      this.button2});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      contentTextStyle: const TextStyle(wordSpacing: 2),
       backgroundColor: ThemeColors().background,
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -35,24 +38,20 @@ class CustomDialog extends StatelessWidget {
               ),
             ],
           ),
-          BigText(
-            text: title,
-            size: Dimensions.size30,
-            fontWeight: FontWeight.w800,
-            color: ThemeColors().green1,
-          ),
+          title,
           SizedBox(
             height: Dimensions.size15,
           ),
-          SmallText(
-            textAlign: TextAlign.center,
-            text: message,
-            color: ThemeColors().black,
-            size: Dimensions.size15,
-          ),
+          message,
           SizedBox(
             height: Dimensions.size20,
           ),
+          button1 != null && button2 != null ?Row(
+            children: [
+              button1!,
+              button2!,
+            ],
+          ) : const SizedBox()
         ],
       ),
     );

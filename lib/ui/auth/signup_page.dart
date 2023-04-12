@@ -22,8 +22,8 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  final TextEditingController _username = TextEditingController();
-  final TextEditingController _surname = TextEditingController();
+  final TextEditingController _firstName = TextEditingController();
+  final TextEditingController _lastName = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final CustomLoader _loader = CustomLoader();
@@ -32,9 +32,8 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   void dispose() {
-    _username.dispose();
-    _surname.dispose();
-    _surname.dispose();
+    _firstName.dispose();
+    _lastName.dispose();
     _email.dispose();
     _password.dispose();
     super.dispose();
@@ -51,8 +50,8 @@ class _SignupPageState extends State<SignupPage> {
     'https://firebasestorage.googleapis.com/v0/b/fridgeit-d17ae.appspot.com/o/users_avatar%2Fface5.png?alt=media&token=1fae0fc6-64f2-40f2-a9ee-338e61c2cd0f',
   ];
   createAccount() async {
-    String userName = _username.text.toString().trim();
-    String surName = _surname.text.toString().trim();
+    String userName = _firstName.text.toString().trim();
+    String surName = _lastName.text.toString().trim();
     String email = _email.text.toString().trim();
     String password = _password.text.toString().trim();
     String gender = _gender.toString().trim();
@@ -128,16 +127,16 @@ class _SignupPageState extends State<SignupPage> {
                 height: Dimensions.size20,
               ),
               TextFieldWidget(
-                controller: _username,
-                hintText: 'Name',
+                controller: _firstName,
+                hintText: 'First Name',
                 prefixIcon: SvgPicture.asset(
                   'assets/icons/person.svg',
                   fit: BoxFit.none,
                 ),
               ),
               TextFieldWidget(
-                controller: _surname,
-                hintText: 'surName',
+                controller: _lastName,
+                hintText: 'Last Name',
                 prefixIcon: SvgPicture.asset(
                   'assets/icons/person.svg',
                   fit: BoxFit.none,
