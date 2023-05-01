@@ -10,7 +10,6 @@ import 'package:fridge_it/ui/home/home.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
-
 class MainHome extends StatefulWidget {
   const MainHome({super.key});
 
@@ -44,7 +43,8 @@ class _MainHomeState extends State<MainHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       appBar: AppBar(
           systemOverlayStyle: SystemUiOverlayStyle(
             // Status bar color
@@ -64,64 +64,63 @@ class _MainHomeState extends State<MainHome> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(Dimensions.size20),
           child: BottomNavigationBar(
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              backgroundColor: ThemeColors().light2,
-              currentIndex: currentPage,  
-              type: BottomNavigationBarType.fixed,
-              onTap: tappedPage,
-              items: [
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/icons/home.svg',
-                    color: ThemeColors().light1,
-                    fit: BoxFit.none,
-                  ),
-                  activeIcon: SvgPicture.asset(
-                    'assets/icons/home_active.svg',
-                    color: ThemeColors().main,
-                    fit: BoxFit.none,
-                  ),
-                  label: 'H',
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            backgroundColor: ThemeColors().light2,
+            currentIndex: currentPage,
+            type: BottomNavigationBarType.fixed,
+            onTap: tappedPage,
+            items: [
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/icons/home.svg',
+                  color: ThemeColors().light1,
+                  fit: BoxFit.none,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.view_list_rounded,
-                    color: ThemeColors().light1,
-                  ),
-                  activeIcon: Icon(
-                    Icons.notifications_rounded,
-                    color: ThemeColors().main,
-                  ),
-                  label: 'N',
+                activeIcon: SvgPicture.asset(
+                  'assets/icons/home_active.svg',
+                  color: ThemeColors().main,
+                  fit: BoxFit.none,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.history_sharp,
-                    color: ThemeColors().light1,
-                  ),
-                  activeIcon: Icon(
-                    Icons.history_sharp,
-                    color: ThemeColors().main,
-                  ),
-                  label: 'P',
+                label: 'H',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.view_list_rounded,
+                  color: ThemeColors().light1,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.person,
-                    color: ThemeColors().light1,
-                  ),
-                  activeIcon: Icon(
-                    Icons.person,
-                    color: ThemeColors().main,
-                  ),
-                  label: 'S',
+                activeIcon: Icon(
+                  Icons.notifications_rounded,
+                  color: ThemeColors().main,
                 ),
-              ],
-            
+                label: 'N',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.history_sharp,
+                  color: ThemeColors().light1,
+                ),
+                activeIcon: Icon(
+                  Icons.history_sharp,
+                  color: ThemeColors().main,
+                ),
+                label: 'P',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person,
+                  color: ThemeColors().light1,
+                ),
+                activeIcon: Icon(
+                  Icons.person,
+                  color: ThemeColors().main,
+                ),
+                label: 'S',
+              ),
+            ],
           ),
         ),
       ),
-    );
+    ));
   }
 }

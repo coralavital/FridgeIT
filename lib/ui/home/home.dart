@@ -79,6 +79,7 @@ class _HomePageState extends State<HomePage>
           //Body layout.
           Expanded(
             child: SingleChildScrollView(
+              
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
@@ -181,13 +182,8 @@ class _HomePageState extends State<HomePage>
                               physics: const BouncingScrollPhysics(),
                               itemBuilder: ((context, index) {
                                 if (snapshot.data!['recently_detected_products']
-                                        [index]['expiry_date'] !=
+                                        [index]['expiration_date'] !=
                                     null) {
-                                  var a = DateTime.parse(snapshot
-                                      .data!['recently_detected_products']
-                                          [index]['expiry_date']
-                                      .toString());
-                                  var time = DateFormat('dd/MM/yyyy').format(a);
                                   return CustomContainer(
                                     title: snapshot
                                             .data!['recently_detected_products']
@@ -195,7 +191,12 @@ class _HomePageState extends State<HomePage>
                                     image: snapshot
                                             .data!['recently_detected_products']
                                         [index]['image'],
-                                    expiriation_date: time,
+                                    expiriation_date: snapshot
+                                            .data!['recently_detected_products']
+                                        [index]['expiration_date'],
+                                    score: snapshot
+                                            .data!['recently_detected_products']
+                                        [index]['score'],
                                   );
                                 } else {
                                   return CustomContainer(
@@ -205,6 +206,9 @@ class _HomePageState extends State<HomePage>
                                     image: snapshot
                                             .data!['recently_detected_products']
                                         [index]['image'],
+                                    score: snapshot
+                                            .data!['recently_detected_products']
+                                        [index]['score'],
                                   );
                                 }
                               }),
@@ -213,6 +217,7 @@ class _HomePageState extends State<HomePage>
                                 childAspectRatio:
                                     Dimensions.size80 / Dimensions.size80,
                                 crossAxisCount: 2,
+                                mainAxisExtent: Dimensions.size150,
                               ),
                             );
                           }

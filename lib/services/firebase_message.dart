@@ -27,14 +27,14 @@ class FMessaging {
       for (var index = 0; index < products!.length; index++) {
         var now = DateTime.now();
         var product = products![index];
-        if (product["expiry_date"] != null) {
-          var expirationDate = DateTime.parse(product["expiry_date"]);
+        if (product["expiration_date"] != null) {
+          var expirationDate = DateTime.parse(product["expiration_date"]);
           final bool isExpired = expirationDate.isBefore(now);
           if (!isExpired && expirationDate.difference(now).inDays < 2) {
             sendPushMessage(
                 mtoken.toString(),
                 "Your ${product["name"]} has ${expirationDate.difference(now).inDays} days left until its expiration date!\nTry to consume it in the next few days",
-                "Expiry Date");
+                "Expiration Date");
           }
         }
       }

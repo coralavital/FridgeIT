@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,7 +7,6 @@ import '../../widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/big_text.dart';
-
 
 class ProductsList extends StatefulWidget {
   const ProductsList({super.key});
@@ -78,7 +75,7 @@ class _ProductsList extends State<ProductsList>
                   if (!snapshot.hasData) {
                     return Container();
                   } else {
-                    if (snapshot.data!['products'].length == 0) {
+                    if (snapshot.data!['all_detected_products'].length == 0) {
                       return Center(
                         child: Column(children: [
                           SizedBox(
@@ -104,7 +101,8 @@ class _ProductsList extends State<ProductsList>
                       );
                     } else {
                       return ListView.builder(
-                          itemCount: snapshot.data!['products'].length,
+                          itemCount:
+                              snapshot.data!['all_detected_products'].length,
                           itemBuilder: (_, index) {
                             return SizedBox(
                               height: Dimensions.size100,
@@ -122,9 +120,9 @@ class _ProductsList extends State<ProductsList>
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
                                           fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                              snapshot.data!['products'][index]
-                                                  ['image']),
+                                          image: NetworkImage(snapshot.data![
+                                                  'all_detected_products']
+                                              [index]['image']),
                                         ),
                                         borderRadius: BorderRadius.circular(
                                           Dimensions.size20,
@@ -142,29 +140,55 @@ class _ProductsList extends State<ProductsList>
                                               MainAxisAlignment.center,
                                           children: [
                                             BigText(
-                                              text: snapshot.data!['products']
+                                              text: snapshot.data![
+                                                      'all_detected_products']
                                                   [index]['name'],
                                               size: Dimensions.size20,
                                               color: ThemeColors().main,
                                             ),
                                           ],
                                         ),
-                                        if (snapshot.data!['products'][index]
-                                                ['expiry_date'] !=
+                                        if (snapshot.data![
+                                                    'all_detected_products']
+                                                [index]['expiration_date'] !=
                                             null)
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               SmallText(
-                                                text: "Expiry Date",
+                                                text: "Expiration Date",
                                                 textAlign: TextAlign.center,
                                                 fontWeight: FontWeight.w500,
                                                 size: Dimensions.size10,
                                               ),
                                               SmallText(
-                                                text: snapshot.data!['products']
-                                                        [index]['expiry_date']
+                                                text: snapshot.data![
+                                                        'all_detected_products']
+                                                        [index]
+                                                        ['expiration_date']
+                                                    .toString(),
+                                                textAlign: TextAlign.center,
+                                                fontWeight: FontWeight.w600,
+                                                size: Dimensions.size10,
+                                              ),
+                                            ],
+                                          ),
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SmallText(
+                                                text: "Score",
+                                                textAlign: TextAlign.center,
+                                                fontWeight: FontWeight.w500,
+                                                size: Dimensions.size10,
+                                              ),
+                                              SmallText(
+                                                text: snapshot.data![
+                                                        'all_detected_products']
+                                                        [index]
+                                                        ['score']
                                                     .toString(),
                                                 textAlign: TextAlign.center,
                                                 fontWeight: FontWeight.w600,
@@ -181,9 +205,11 @@ class _ProductsList extends State<ProductsList>
                                             (snapshot.data!['shopping_list']
                                                         .toString()
                                                         .contains(snapshot
-                                                                    .data![
-                                                                'products']
-                                                            [index]['name']) ==
+                                                            .data![
+                                                                'all_detected_products']
+                                                                [index]
+                                                                ['created_date']
+                                                            .toString()) ==
                                                     false)
                                                 ? TextButton(
                                                     style: ButtonStyle(
@@ -208,18 +234,21 @@ class _ProductsList extends State<ProductsList>
                                                     onPressed: () {
                                                       fbS.addToShoppingList(
                                                           snapshot.data![
-                                                                  'products']
+                                                                  'all_detected_products']
                                                               [index]['name'],
                                                           snapshot.data![
-                                                                  'products']
+                                                                  'all_detected_products']
                                                               [index]['image'],
-                                                          1);
+                                                          1,
+                                                          snapshot.data![
+                                                                      'all_detected_products']
+                                                                  [index]
+                                                              ['created_date']);
                                                       toast = CustomToast(
                                                           message:
                                                               "The product has been added\nto the shopping cart",
                                                           context: context);
                                                       toast?.showCustomToast();
-                                                      //***************************** */
                                                     },
                                                     child: SmallText(
                                                       text:

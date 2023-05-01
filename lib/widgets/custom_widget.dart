@@ -4,17 +4,18 @@ import 'package:fridge_it/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import '../utils/dimensions.dart';
 
-
 class CustomContainer extends StatefulWidget {
   final String title;
   final String image;
   String? expiriation_date;
+  String? score;
 
   CustomContainer({
     super.key,
     required this.title,
     required this.image,
     this.expiriation_date,
+    this.score,
   });
 
   @override
@@ -26,7 +27,7 @@ class _CustomContainerState extends State<CustomContainer> {
   Widget build(BuildContext context) {
     return Padding(
       padding:
-          EdgeInsets.only(right: Dimensions.size10, bottom: Dimensions.size7),
+          EdgeInsets.only(right: Dimensions.size10, bottom: Dimensions.size5),
       child: Container(
         width: Dimensions.size130,
         padding: EdgeInsets.all(Dimensions.size15),
@@ -81,6 +82,23 @@ class _CustomContainerState extends State<CustomContainer> {
                         overflow: TextOverflow.ellipsis,
                       )
                     : SizedBox()
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SmallText(
+                  text: "Score",
+                  textAlign: TextAlign.center,
+                  fontWeight: FontWeight.w500,
+                  size: Dimensions.size10,
+                ),
+                SmallText(
+                  text: widget.score!,
+                  textAlign: TextAlign.center,
+                  fontWeight: FontWeight.w600,
+                  size: Dimensions.size10,
+                ),
               ],
             ),
           ],

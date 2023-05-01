@@ -49,7 +49,7 @@ class FirebaseFirestoreService {
   }
 
   Future<void> addToShoppingList(
-      String name, String image, int quantity) async {
+      String name, String image, int quantity, String created_date) async {
     try {
       await _firestore
           .collection('${_auth.currentUser?.uid}')
@@ -57,7 +57,7 @@ class FirebaseFirestoreService {
           .update(
         {
           'shopping_list': FieldValue.arrayUnion([
-            {"name": name, "image": image, "quantity": quantity}
+            {"name": name, "image": image, "quantity": quantity, 'created_date': created_date}
           ])
         },
       );
