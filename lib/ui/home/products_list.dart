@@ -47,8 +47,7 @@ class _ProductsList extends State<ProductsList>
 
   bool getExpirationDate(String date) {
     var now = DateTime.now();
-    date = date + '/' + DateTime.now().year.toString();
-    print(date);
+    date = '$date/${DateTime.now().year}';
     DateFormat format = DateFormat('d/M/y');
     DateTime expirationDate = format.parse(date);
     print(expirationDate);
@@ -181,7 +180,7 @@ class _ProductsList extends State<ProductsList>
                                               ),
                                               // ignore: unnecessary_null_comparison
 
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 6,
                                               ),
                                               snapshot.data!['all_detected_products']
