@@ -1,11 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fridge_it/widgets/small_text.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import '../firebase_options.dart';
 import 'dart:convert';
-
 
 class FMessaging {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -22,18 +24,23 @@ class FMessaging {
         .collection(auth.currentUser!.uid)
         .doc("user_data");
     reference.snapshots().listen((querySnapshot) {
-      products = querySnapshot.get("products");
-
+      products = querySnapshot.get("recently_detected_products");
       for (var index = 0; index < products!.length; index++) {
         var now = DateTime.now();
         var product = products![index];
         if (product["expiration_date"] != null) {
-          var expirationDate = DateTime.parse(product["expiration_date"]);
+          var date = product["expiration_date"] + '/' + DateTime.now().year.toString();
+          DateFormat format = DateFormat('d/M/y');
+          DateTime expirationDate = format.parse(date);
           final bool isExpired = expirationDate.isBefore(now);
-          if (!isExpired && expirationDate.difference(now).inDays < 2) {
+          var difference = expirationDate.difference(now).inDays;
+          if (!isExpired && difference < 2) {
+            if (difference == 0) {
+              difference = 1;
+            }
             sendPushMessage(
                 mtoken.toString(),
-                "Your ${product["name"]} has ${expirationDate.difference(now).inDays} days left until its expiration date!\nTry to consume it in the next few days",
+                "Your ${product["name"]} has $difference days left until its expiration date!\nTry to consume it in the next few days",
                 "Expiration Date");
           }
         }
@@ -68,7 +75,8 @@ class FMessaging {
       await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
           headers: <String, String>{
             'Content-Type': 'application/json',
-            'Authorization': 'key=AAAAroemubE:APA91bH_-j0J5H5ADNnEOGLYRpPnMjt5xni5ZLCEef6JjRqKY_sGuRC3Qkfl3UuKpp_2lL3XGKUh6NzMSjBcoIRE1Qmv_pLvUDFl9L2wB3DcjreOmP8JdueV7Q11bshp2D8qPnM7eDRe'
+            'Authorization':
+                'key=AAAAroemubE:APA91bH_-j0J5H5ADNnEOGLYRpPnMjt5xni5ZLCEef6JjRqKY_sGuRC3Qkfl3UuKpp_2lL3XGKUh6NzMSjBcoIRE1Qmv_pLvUDFl9L2wB3DcjreOmP8JdueV7Q11bshp2D8qPnM7eDRe'
           },
           body: jsonEncode(<String, dynamic>{
             'prioriity': 'high',
@@ -82,6 +90,7 @@ class FMessaging {
               "title": title,
               "body": body,
               "android_channel_id": "FridgeIT"
+              
             },
             "to": token,
           }));
@@ -121,8 +130,7 @@ class FMessaging {
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       print("....................onMessage....................");
-      print(
-          "onMessage\n"
+      print("onMessage\n"
           "title: ${message.notification?.title}"
           "\nbody: ${message.notification?.body}");
 

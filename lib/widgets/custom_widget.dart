@@ -30,13 +30,10 @@ class _CustomContainerState extends State<CustomContainer> {
   bool getExpirationDate(String date) {
     var now = DateTime.now();
     date = date + '/' + DateTime.now().year.toString();
-    print(date);
     DateFormat format = DateFormat('d/M/y');
     DateTime expirationDate = format.parse(date);
-    print(expirationDate);
     final bool isExpired = expirationDate.isBefore(now);
     if (isExpired == true) {
-      print(isExpired);
       return true;
     } else {
       return false;
