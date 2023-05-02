@@ -2,6 +2,7 @@
 import 'package:fridge_it/theme/theme_colors.dart';
 import 'package:fridge_it/widgets/small_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../utils/dimensions.dart';
 
 class CustomContainer extends StatefulWidget {
@@ -23,6 +24,25 @@ class CustomContainer extends StatefulWidget {
 }
 
 class _CustomContainerState extends State<CustomContainer> {
+  DateTime currentDate = DateTime.now();
+  late DateTime date;
+
+  bool getExpirationDate(String date) {
+    var now = DateTime.now();
+    date = date + '/' + DateTime.now().year.toString();
+    print(date);
+    DateFormat format = DateFormat('d/M/y');
+    DateTime expirationDate = format.parse(date);
+    print(expirationDate);
+    final bool isExpired = expirationDate.isBefore(now);
+    if (isExpired == true) {
+      print(isExpired);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -59,15 +79,25 @@ class _CustomContainerState extends State<CustomContainer> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 widget.expiriation_date != null
-                    ? Container(
-                        height: Dimensions.size7,
-                        width: Dimensions.size7,
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.size13),
-                        ),
-                      )
+                    ? getExpirationDate(widget.expiriation_date!) != true
+                        ? Container(
+                            height: Dimensions.size7,
+                            width: Dimensions.size7,
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius:
+                                  BorderRadius.circular(Dimensions.size13),
+                            ),
+                          )
+                        : Container(
+                            height: Dimensions.size7,
+                            width: Dimensions.size7,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius:
+                                  BorderRadius.circular(Dimensions.size13),
+                            ),
+                          )
                     : SizedBox(),
                 SizedBox(
                   width: 6,
@@ -78,7 +108,7 @@ class _CustomContainerState extends State<CustomContainer> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: Dimensions.size10,
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.w600),
                         overflow: TextOverflow.ellipsis,
                       )
                     : SizedBox()

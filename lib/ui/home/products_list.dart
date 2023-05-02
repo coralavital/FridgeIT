@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 import '../../services/firestore_service.dart';
 import '../../widgets/custom_toast.dart';
 import '../../widgets/small_text.dart';
@@ -44,6 +45,22 @@ class _ProductsList extends State<ProductsList>
     super.dispose();
   }
 
+  bool getExpirationDate(String date) {
+    var now = DateTime.now();
+    date = date + '/' + DateTime.now().year.toString();
+    print(date);
+    DateFormat format = DateFormat('d/M/y');
+    DateTime expirationDate = format.parse(date);
+    print(expirationDate);
+    final bool isExpired = expirationDate.isBefore(now);
+    if (isExpired == true) {
+      print(isExpired);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -79,7 +96,7 @@ class _ProductsList extends State<ProductsList>
                       return Center(
                         child: Column(children: [
                           SizedBox(
-                            height: Dimensions.size150,
+                            height: Dimensions.size160,
                           ),
                           AnimatedIcon(
                             icon: AnimatedIcons.list_view,
@@ -162,40 +179,126 @@ class _ProductsList extends State<ProductsList>
                                                 fontWeight: FontWeight.w500,
                                                 size: Dimensions.size10,
                                               ),
-                                              SmallText(
-                                                text: snapshot.data![
-                                                        'all_detected_products']
-                                                        [index]
-                                                        ['expiration_date']
-                                                    .toString(),
-                                                textAlign: TextAlign.center,
-                                                fontWeight: FontWeight.w600,
-                                                size: Dimensions.size10,
+                                              // ignore: unnecessary_null_comparison
+
+                                              SizedBox(
+                                                width: 6,
                                               ),
+                                              snapshot.data!['all_detected_products']
+                                                              [index][
+                                                              'expiration_date']
+                                                          .toString() !=
+                                                      ""
+                                                  ? getExpirationDate(snapshot
+                                                              .data![
+                                                                  'all_detected_products']
+                                                                  [index][
+                                                                  'expiration_date']
+                                                              .toString()) !=
+                                                          true
+                                                      ? Row(children: [
+                                                          Container(
+                                                            height: Dimensions
+                                                                .size7,
+                                                            width: Dimensions
+                                                                .size7,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color:
+                                                                  Colors.green,
+                                                              borderRadius:
+                                                                  BorderRadius.circular(
+                                                                      Dimensions
+                                                                          .size13),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: Dimensions
+                                                                .size5,
+                                                          ),
+                                                          Text(
+                                                            snapshot.data![
+                                                                    'all_detected_products']
+                                                                    [index][
+                                                                    'expiration_date']
+                                                                .toString(),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    Dimensions
+                                                                        .size10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                          )
+                                                        ])
+                                                      : Row(children: [
+                                                          Container(
+                                                            height: Dimensions
+                                                                .size7,
+                                                            width: Dimensions
+                                                                .size7,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Colors.red,
+                                                              borderRadius:
+                                                                  BorderRadius.circular(
+                                                                      Dimensions
+                                                                          .size13),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: Dimensions
+                                                                .size5,
+                                                          ),
+                                                          Text(
+                                                            snapshot.data![
+                                                                    'all_detected_products']
+                                                                    [index][
+                                                                    'expiration_date']
+                                                                .toString(),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    Dimensions
+                                                                        .size10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                          )
+                                                        ])
+                                                  : const SizedBox()
                                             ],
                                           ),
                                         Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              SmallText(
-                                                text: "Score",
-                                                textAlign: TextAlign.center,
-                                                fontWeight: FontWeight.w500,
-                                                size: Dimensions.size10,
-                                              ),
-                                              SmallText(
-                                                text: snapshot.data![
-                                                        'all_detected_products']
-                                                        [index]
-                                                        ['score']
-                                                    .toString(),
-                                                textAlign: TextAlign.center,
-                                                fontWeight: FontWeight.w600,
-                                                size: Dimensions.size10,
-                                              ),
-                                            ],
-                                          ),
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SmallText(
+                                              text: "Score",
+                                              textAlign: TextAlign.center,
+                                              fontWeight: FontWeight.w500,
+                                              size: Dimensions.size10,
+                                            ),
+                                            SmallText(
+                                              text: snapshot.data![
+                                                      'all_detected_products']
+                                                      [index]['score']
+                                                  .toString(),
+                                              textAlign: TextAlign.center,
+                                              fontWeight: FontWeight.w600,
+                                              size: Dimensions.size10,
+                                            ),
+                                          ],
+                                        ),
                                         Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
