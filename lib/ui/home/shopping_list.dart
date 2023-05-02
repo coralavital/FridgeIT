@@ -8,7 +8,6 @@ import '../../widgets/small_text.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/big_text.dart';
 
-
 class ShoppingList extends StatefulWidget {
   const ShoppingList({super.key});
 
@@ -172,15 +171,21 @@ class _ShoppingList extends State<ShoppingList>
                                               children: [
                                                 GestureDetector(
                                                   onTap: () {
+                                                    if (snapshot.data![
+                                                                'shopping_list']
+                                                            [
+                                                            index]['quantity'] <=
+                                                        1) {
+                                                      toast = CustomToast(
+                                                          message:
+                                                              "The product has been removed\nfrom the shopping cart",
+                                                          context: context);
+                                                      toast?.showCustomToast();
+                                                    }
                                                     fbS.removeItemToProduct(
                                                         snapshot.data![
                                                             'shopping_list'],
                                                         index);
-                                                    toast = CustomToast(
-                                                        message:
-                                                            "The product has been removed\nfrom the shopping cart",
-                                                        context: context);
-                                                    toast?.showCustomToast();
                                                   },
                                                   child: Icon(
                                                     Icons.remove,
