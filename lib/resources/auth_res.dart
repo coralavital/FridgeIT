@@ -6,18 +6,19 @@ class AuthRes {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<String> createAccount(
-    String userName,
-    String surName,
+    String firstName,
+    String lastName,
     String email,
     String gender,
     String avatar,
     String password,
-    List products,
+    List all_detected_products,
     List shopping_list,
     List recently_detected_products,
   ) async {
     String res = 'Some error accoured';
-    if (userName.isNotEmpty &&
+    if (firstName.isNotEmpty &&
+        lastName.isNotEmpty &&
         email.isNotEmpty &&
         password.isNotEmpty &&
         gender.isNotEmpty) {
@@ -28,12 +29,12 @@ class AuthRes {
             .collection(_auth.currentUser!.uid)
             .doc('user_data')
             .set({
-          'first_name': userName,
-          'last_name': surName,
+          'first_name': firstName,
+          'last_name': lastName,
           'email': email,
           'genter': gender,
           'profile_picture_url': avatar,
-          'products': products,
+          'all_detected_products': all_detected_products,
           'shopping_list': shopping_list,
           'recently_detected_products': recently_detected_products,
         });
@@ -44,7 +45,7 @@ class AuthRes {
         res = e.code;
       }
     }
-      return res;
+    return res;
   }
 
   Future<String> login(

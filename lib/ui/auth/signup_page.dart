@@ -50,15 +50,15 @@ class _SignupPageState extends State<SignupPage> {
     'https://firebasestorage.googleapis.com/v0/b/fridgeit-d17ae.appspot.com/o/users_avatar%2Fface5.png?alt=media&token=1fae0fc6-64f2-40f2-a9ee-338e61c2cd0f',
   ];
   createAccount() async {
-    String userName = _firstName.text.toString().trim();
-    String surName = _lastName.text.toString().trim();
+    String firstName = _firstName.text.toString().trim();
+    String lastName = _lastName.text.toString().trim();
     String email = _email.text.toString().trim();
     String password = _password.text.toString().trim();
     String gender = _gender.toString().trim();
     String avatar;
-    List products = [];
+    List all_detected_products = [];
     List shopping_list = [];
-    List products_history = [];
+    List recently_detected_products = [];
 
     if (_gender.toString().trim() == 'male') {
       avatar = maleAvatars[Random().nextInt(maleAvatars.length)];
@@ -66,8 +66,8 @@ class _SignupPageState extends State<SignupPage> {
       avatar = femaleAvatars[Random().nextInt(femaleAvatars.length)];
     }
 
-    String res = await AuthRes().createAccount(userName, surName, email, gender,
-        avatar, password, products, shopping_list, products_history);
+    String res = await AuthRes().createAccount(firstName, lastName, email, gender,
+        avatar, password, all_detected_products, shopping_list, recently_detected_products);
 
     if (res == 'success') {
       _loader.hideLoader();
