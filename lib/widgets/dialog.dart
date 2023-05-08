@@ -21,11 +21,11 @@ class CustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentTextStyle: const TextStyle(wordSpacing: 2),
-      backgroundColor: ThemeColors().background,
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
+        contentTextStyle: const TextStyle(wordSpacing: 2),
+        backgroundColor: ThemeColors().background,
+        content: SingleChildScrollView(
+            child: Column(
+                children: ([
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -38,22 +38,31 @@ class CustomDialog extends StatelessWidget {
               ),
             ],
           ),
-          title,
-          SizedBox(
-            height: Dimensions.size15,
-          ),
-          message,
-          SizedBox(
-            height: Dimensions.size20,
-          ),
-          button1 != null && button2 != null ?Row(
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              button1!,
-              button2!,
+              title,
+              SizedBox(
+                height: Dimensions.size15,
+              ),
+              ListBody(
+                children: [
+                  message,
+                ],
+              ),
+              SizedBox(
+                height: Dimensions.size20,
+              ),
+              button1 != null && button2 != null
+                  ? Row(
+                      children: [
+                        button1!,
+                        button2!,
+                      ],
+                    )
+                  : const SizedBox()
             ],
-          ) : const SizedBox()
-        ],
-      ),
-    );
+          ),
+        ]))));
   }
 }
