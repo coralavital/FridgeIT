@@ -59,38 +59,14 @@ class _LoginPageState extends State<LoginPage> {
 
   String getMessageFromErrorCode(String errorCode) {
     switch (errorCode) {
-      case "ERROR_EMAIL_ALREADY_IN_USE":
-      case "account-exists-with-different-credential":
-      case "email-already-in-use":
-        return "Email already used. Go to login page.";
-        break;
       case "ERROR_WRONG_PASSWORD":
       case "wrong-password":
         return "Wrong email/password combination.";
-        break;
       case "ERROR_USER_NOT_FOUND":
       case "user-not-found":
         return "No user found with this email.";
-        break;
-      case "ERROR_USER_DISABLED":
-      case "user-disabled":
-        return "User disabled.";
-        break;
-      case "ERROR_TOO_MANY_REQUESTS":
-      case "operation-not-allowed":
-        return "Too many requests to log into this account.";
-        break;
-      case "ERROR_OPERATION_NOT_ALLOWED":
-      case "operation-not-allowed":
-        return "Server error, please try again later.";
-        break;
-      case "ERROR_INVALID_EMAIL":
-      case "invalid-email":
-        return "Email address is invalid.";
-        break;
       default:
         return "Login failed. Please try again.";
-        break;
     }
   }
 
@@ -151,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: Dimensions.size20,
               ),
               Text(
-                'Login to continue...',
+                'Login to continue',
                 style: TextStyle(
                   fontSize: Dimensions.size15,
                   color: ThemeColors().main,
@@ -183,10 +159,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     showEmailError == true
                         ? SmallText(
+                            color: Colors.red,
                             textAlign: TextAlign.start,
-                            text:
-                                'Your email should have the following format:\n'
-                                '\u2022 aaa@aaa@aa\n')
+                            text: 'Please enter your email')
                         : SizedBox(
                             height: Dimensions.size10,
                           ),
@@ -203,6 +178,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     showPasswordError == true
                         ? SmallText(
+                            color: Colors.red,
                             textAlign: TextAlign.right,
                             text: 'Please enter your password\n')
                         : SizedBox(
@@ -215,9 +191,9 @@ class _LoginPageState extends State<LoginPage> {
               CustomButton(
                 text: 'Login',
                 onTap: () {
+                  _loader.showLoader(context);
                   String email = _email.text.toString().trim();
                   String password = _password.text.toString().trim();
-                  _loader.showLoader(context);
                   validateEmail(email);
                   validatePassword(password);
                   login(email, password);

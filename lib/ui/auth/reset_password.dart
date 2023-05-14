@@ -57,9 +57,19 @@ class _ForgotPassword extends State<ForgotPassword> {
         textColor: ThemeColors().main,
         fontSize: Dimensions.size15,
       );
+      Navigator.pop(context);
     } else {
       setState(() {});
       _loader.hideLoader();
+      Fluttertoast.showToast(
+        msg: 'Some problem',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: ThemeColors().background,
+        textColor: ThemeColors().main,
+        fontSize: Dimensions.size15,
+      );
     }
   }
 
@@ -130,9 +140,9 @@ class _ForgotPassword extends State<ForgotPassword> {
               ),
               showEmailError == true
                   ? SmallText(
+                      color: Colors.red,
                       textAlign: TextAlign.start,
-                      text: 'Your email should have the following format:\n'
-                          '\u2022 aaa@aaa@aa\n')
+                      text: 'Please enter your email')
                   : SizedBox(
                       height: Dimensions.size10,
                     ),
@@ -148,6 +158,22 @@ class _ForgotPassword extends State<ForgotPassword> {
                   resetPass();
                 },
               ),
+              SizedBox(
+                height: Dimensions.size15,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  height: Dimensions.size50,
+                  width: double.infinity,
+                  color: Colors.transparent,
+                  child: Center(
+                    child: Text('Back To Login'),
+                  ),
+                ),
+              )
             ],
           ),
         ),

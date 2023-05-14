@@ -61,34 +61,8 @@ class _SignupPageState extends State<SignupPage> {
       case "account-exists-with-different-credential":
       case "email-already-in-use":
         return "Email already used. Go to login page.";
-        break;
-      case "ERROR_WRONG_PASSWORD":
-      case "wrong-password":
-        return "Wrong email/password combination.";
-        break;
-      case "ERROR_USER_NOT_FOUND":
-      case "user-not-found":
-        return "No user found with this email.";
-        break;
-      case "ERROR_USER_DISABLED":
-      case "user-disabled":
-        return "User disabled.";
-        break;
-      case "ERROR_TOO_MANY_REQUESTS":
-      case "operation-not-allowed":
-        return "Too many requests to log into this account.";
-        break;
-      case "ERROR_OPERATION_NOT_ALLOWED":
-      case "operation-not-allowed":
-        return "Server error, please try again later.";
-        break;
-      case "ERROR_INVALID_EMAIL":
-      case "invalid-email":
-        return "Email address is invalid.";
-        break;
       default:
-        return "Login failed. Please try again.";
-        break;
+        return "Signup failed. Please try again.";
     }
   }
 
@@ -129,8 +103,8 @@ class _SignupPageState extends State<SignupPage> {
       _loader.hideLoader();
       Navigator.pop(context);
     } else {
-      setState(() {});
       _loader.hideLoader();
+      setState(() {});
       Fluttertoast.showToast(
         msg: getMessageFromErrorCode(res),
         toastLength: Toast.LENGTH_SHORT,
@@ -144,7 +118,7 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   void validatePassword(String password) {
-    RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[0-9]).{6,}$');
+    RegExp regex = RegExp(r'^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,}$');
     if (!regex.hasMatch(password) || password.isEmpty) {
       showPasswordError = true;
     } else {
@@ -173,6 +147,14 @@ class _SignupPageState extends State<SignupPage> {
       showLastNameError = true;
     } else {
       showLastNameError = false;
+    }
+  }
+
+  void validateGender(String gender) {
+    if (gender.isEmpty) {
+      showGenderError = true;
+    } else {
+      showGenderError = false;
     }
   }
 
@@ -207,7 +189,7 @@ class _SignupPageState extends State<SignupPage> {
                 height: Dimensions.size20,
               ),
               Text(
-                'Create account to continue...',
+                'Create account to continue',
                 style: TextStyle(
                   fontSize: Dimensions.size15,
                   color: ThemeColors().main,
@@ -222,10 +204,12 @@ class _SignupPageState extends State<SignupPage> {
                     String password = _password.text.toString().trim();
                     String firstName = _firstName.text.toString().trim();
                     String lastName = _lastName.text.toString().trim();
+                    String gender = _gender.toString().trim();
                     validateEmail(email);
                     validatePassword(password);
                     validateFirstName(firstName);
                     validateLastName(lastName);
+                    validateGender(gender);
                     setState(() {});
                   },
                   autovalidateMode: AutovalidateMode.always,
@@ -241,9 +225,7 @@ class _SignupPageState extends State<SignupPage> {
                     showFirstNameError == true
                         ? SmallText(
                             textAlign: TextAlign.right,
-                            text: 'Your first name should contain:\n'
-                                '\t\u2022 Only letters least one upper case\n'
-                                '\t\u2022 Must be at least 4 characters in length')
+                            text: 'Please enter first name')
                         : SizedBox(
                             height: Dimensions.size10,
                           ),
@@ -258,9 +240,7 @@ class _SignupPageState extends State<SignupPage> {
                     showLastNameError == true
                         ? SmallText(
                             textAlign: TextAlign.right,
-                            text: 'Your lase name should contain:\n'
-                                '\t\u2022 Only letters least one upper case\n'
-                                '\t\u2022 Must be at least 4 characters in length')
+                            text: 'Please enter last name')
                         : SizedBox(
                             height: Dimensions.size10,
                           ),
@@ -275,8 +255,9 @@ class _SignupPageState extends State<SignupPage> {
                     showEmailError == true
                         ? SmallText(
                             textAlign: TextAlign.start,
-                            text: 'Your email should contain:\n'
-                                '\u2022 aaa@aaa@aa as format')
+                            text:
+                                'Please enter emaill in the following format:\n'
+                                '\u2022 a@a.a')
                         : SizedBox(
                             height: Dimensions.size10,
                           ),
@@ -291,10 +272,8 @@ class _SignupPageState extends State<SignupPage> {
                     showPasswordError == true
                         ? SmallText(
                             textAlign: TextAlign.right,
-                            text: 'Your password should contain:\n'
-                                '\t\u2022 at least one upper case\n'
-                                '\t\u2022 at least one digit\n'
-                                '\t\u2022 Must be at least 6 characters in length')
+                            text:
+                                'Please enter password with at leasy 6 characters and digits\n')
                         : SizedBox(
                             height: Dimensions.size10,
                           ),
@@ -346,6 +325,15 @@ class _SignupPageState extends State<SignupPage> {
                                 });
                               },
                             ),
+                            showGenderError == true
+                        ? SmallText(
+                            textAlign: TextAlign.start,
+                            text:
+                                'Please please selecet an option\n'
+                                )
+                        : SizedBox(
+                            height: Dimensions.size10,
+                          ),
                           ],
                         ),
                       ),
@@ -357,11 +345,11 @@ class _SignupPageState extends State<SignupPage> {
               CustomButton(
                 text: 'Create Account',
                 onTap: () {
+                  _loader.showLoader(context);
                   String email = _email.text.toString().trim();
                   String password = _password.text.toString().trim();
                   String firstName = _firstName.text.toString().trim();
                   String lastName = _lastName.text.toString().trim();
-                  _loader.showLoader(context);
                   validateEmail(email);
                   validatePassword(password);
                   validateFirstName(firstName);
@@ -413,7 +401,7 @@ class _SignupPageState extends State<SignupPage> {
                   width: double.infinity,
                   color: Colors.transparent,
                   child: Center(
-                    child: Text('Login'),
+                    child: Text('Back To Login'),
                   ),
                 ),
               )
