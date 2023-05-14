@@ -54,6 +54,49 @@ class _SignupPageState extends State<SignupPage> {
     'https://firebasestorage.googleapis.com/v0/b/fridgeit-d17ae.appspot.com/o/users_avatar%2Fface4.png?alt=media&token=5036c8c1-0866-42d3-bfac-506caeb39c80',
     'https://firebasestorage.googleapis.com/v0/b/fridgeit-d17ae.appspot.com/o/users_avatar%2Fface5.png?alt=media&token=1fae0fc6-64f2-40f2-a9ee-338e61c2cd0f',
   ];
+
+  String getMessageFromErrorCode(String errorCode) {
+    switch (errorCode) {
+      case "ERROR_EMAIL_ALREADY_IN_USE":
+      case "account-exists-with-different-credential":
+      case "email-already-in-use":
+        return "Email already used. Go to login page.";
+        break;
+      case "ERROR_WRONG_PASSWORD":
+      case "wrong-password":
+        return "Wrong email/password combination.";
+        break;
+      case "ERROR_USER_NOT_FOUND":
+      case "user-not-found":
+        return "No user found with this email.";
+        break;
+      case "ERROR_USER_DISABLED":
+      case "user-disabled":
+        return "User disabled.";
+        break;
+      case "ERROR_TOO_MANY_REQUESTS":
+      case "operation-not-allowed":
+        return "Too many requests to log into this account.";
+        break;
+      case "ERROR_OPERATION_NOT_ALLOWED":
+      case "operation-not-allowed":
+        return "Server error, please try again later.";
+        break;
+      case "ERROR_INVALID_EMAIL":
+      case "invalid-email":
+        return "Email address is invalid.";
+        break;
+      default:
+        return "Login failed. Please try again.";
+        break;
+    }
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    super.setState(fn);
+  }
+
   createAccount() async {
     String firstName = _firstName.text.toString().trim();
     String lastName = _lastName.text.toString().trim();
@@ -88,6 +131,15 @@ class _SignupPageState extends State<SignupPage> {
     } else {
       setState(() {});
       _loader.hideLoader();
+      Fluttertoast.showToast(
+        msg: getMessageFromErrorCode(res),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: ThemeColors().background,
+        textColor: ThemeColors().main,
+        fontSize: Dimensions.size15,
+      );
     }
   }
 
@@ -191,10 +243,10 @@ class _SignupPageState extends State<SignupPage> {
                             textAlign: TextAlign.right,
                             text: 'Your first name should contain:\n'
                                 '\t\u2022 Only letters least one upper case\n'
-                                '\t\u2022 Must be at least 4 characters in length'
-                              )
+                                '\t\u2022 Must be at least 4 characters in length')
                         : SizedBox(
-                            height: Dimensions.size10,),
+                            height: Dimensions.size10,
+                          ),
                     TextFieldWidget(
                       controller: _lastName,
                       hintText: 'Last Name',
@@ -203,15 +255,15 @@ class _SignupPageState extends State<SignupPage> {
                         fit: BoxFit.none,
                       ),
                     ),
-                     showLastNameError == true
+                    showLastNameError == true
                         ? SmallText(
                             textAlign: TextAlign.right,
                             text: 'Your lase name should contain:\n'
                                 '\t\u2022 Only letters least one upper case\n'
-                                '\t\u2022 Must be at least 4 characters in length'
-                              )
+                                '\t\u2022 Must be at least 4 characters in length')
                         : SizedBox(
-                            height: Dimensions.size10,),
+                            height: Dimensions.size10,
+                          ),
                     TextFieldWidget(
                       controller: _email,
                       hintText: 'Email',
@@ -220,12 +272,10 @@ class _SignupPageState extends State<SignupPage> {
                         fit: BoxFit.none,
                       ),
                     ),
-                   
                     showEmailError == true
                         ? SmallText(
                             textAlign: TextAlign.start,
-                            text:
-                                'Your email should contain:\n'
+                            text: 'Your email should contain:\n'
                                 '\u2022 aaa@aaa@aa as format')
                         : SizedBox(
                             height: Dimensions.size10,
@@ -238,7 +288,6 @@ class _SignupPageState extends State<SignupPage> {
                         fit: BoxFit.none,
                       ),
                     ),
-               
                     showPasswordError == true
                         ? SmallText(
                             textAlign: TextAlign.right,

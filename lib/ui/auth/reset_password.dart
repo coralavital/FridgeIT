@@ -12,7 +12,6 @@ import 'package:flutter/services.dart';
 import '../../theme/theme_colors.dart';
 import '../../widgets/small_text.dart';
 
-
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
 
@@ -25,6 +24,10 @@ class _ForgotPassword extends State<ForgotPassword> {
   final CustomLoader _loader = CustomLoader();
   bool showEmailError = false;
 
+  @override
+  void setState(VoidCallback fn) {
+    super.setState(fn);
+  }
 
   @override
   void dispose() {
@@ -66,10 +69,10 @@ class _ForgotPassword extends State<ForgotPassword> {
       backgroundColor: ThemeColors().background,
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
-            // Status bar color
-            systemNavigationBarColor: ThemeColors().background,
-            statusBarColor: ThemeColors().background,
-          ),
+          // Status bar color
+          systemNavigationBarColor: ThemeColors().background,
+          statusBarColor: ThemeColors().background,
+        ),
         backgroundColor: ThemeColors().background,
         scrolledUnderElevation: 0,
         leading: IconButton(
@@ -109,31 +112,30 @@ class _ForgotPassword extends State<ForgotPassword> {
               ),
               Form(
                 onChanged: () {
-                    String email = _email.text.toString().trim();
-                    validateEmail(email);
-                    setState(() {});
-                  },
+                  String email = _email.text.toString().trim();
+                  validateEmail(email);
+                  setState(() {});
+                },
                 child: TextFieldWidget(
-                
-                controller: _email,
-                hintText: 'Email',
-                prefixIcon: SvgPicture.asset(
-                  'assets/icons/email.svg',
-                  fit: BoxFit.none,
+                  controller: _email,
+                  hintText: 'Email',
+                  prefixIcon: SvgPicture.asset(
+                    'assets/icons/email.svg',
+                    fit: BoxFit.none,
+                  ),
                 ),
-              ),),
+              ),
               SizedBox(
-                      height: Dimensions.size5,
+                height: Dimensions.size5,
+              ),
+              showEmailError == true
+                  ? SmallText(
+                      textAlign: TextAlign.start,
+                      text: 'Your email should have the following format:\n'
+                          '\u2022 aaa@aaa@aa\n')
+                  : SizedBox(
+                      height: Dimensions.size10,
                     ),
-                    showEmailError == true
-                        ? SmallText(
-                            textAlign: TextAlign.start,
-                            text:
-                                'Your email should have the following format:\n'
-                                '\u2022 aaa@aaa@aa\n')
-                        : SizedBox(
-                            height: Dimensions.size10,
-                          ),
               SizedBox(
                 height: Dimensions.size20,
               ),
