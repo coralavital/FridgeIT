@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+import 'package:email_validator/email_validator.dart';
 import 'package:fridge_it/widgets/custom_button.dart';
 import 'package:fridge_it/widgets/custom_loader.dart';
 import 'package:fridge_it/resources/auth_res.dart';
@@ -9,24 +10,34 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../theme/theme_colors.dart';
+import '../../widgets/small_text.dart';
 
 
-class ResetPassword extends StatefulWidget {
-  const ResetPassword({super.key});
+class ForgotPassword extends StatefulWidget {
+  const ForgotPassword({super.key});
 
   @override
-  State<ResetPassword> createState() => _ResetPasswordState();
+  State<ForgotPassword> createState() => _ForgotPassword();
 }
 
-class _ResetPasswordState extends State<ResetPassword> {
+class _ForgotPassword extends State<ForgotPassword> {
   final TextEditingController _email = TextEditingController();
   final CustomLoader _loader = CustomLoader();
+  bool showEmailError = false;
+
 
   @override
   void dispose() {
     _email.dispose();
-
     super.dispose();
+  }
+
+  void validateEmail(String email) {
+    if (!EmailValidator.validate(email) || email.isEmpty) {
+      showEmailError = true;
+    } else {
+      showEmailError = false;
+    }
   }
 
   resetPass() async {
@@ -44,16 +55,8 @@ class _ResetPasswordState extends State<ResetPassword> {
         fontSize: Dimensions.size15,
       );
     } else {
+      setState(() {});
       _loader.hideLoader();
-      Fluttertoast.showToast(
-        msg: res,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: ThemeColors().background,
-        textColor: ThemeColors().main,
-        fontSize: Dimensions.size15,
-      );
     }
   }
 
@@ -104,21 +107,42 @@ class _ResetPasswordState extends State<ResetPassword> {
               SizedBox(
                 height: Dimensions.size20,
               ),
-              TextFieldWidget(
+              Form(
+                onChanged: () {
+                    String email = _email.text.toString().trim();
+                    validateEmail(email);
+                    setState(() {});
+                  },
+                child: TextFieldWidget(
+                
                 controller: _email,
                 hintText: 'Email',
                 prefixIcon: SvgPicture.asset(
                   'assets/icons/email.svg',
                   fit: BoxFit.none,
                 ),
-              ),
+              ),),
+              SizedBox(
+                      height: Dimensions.size5,
+                    ),
+                    showEmailError == true
+                        ? SmallText(
+                            textAlign: TextAlign.start,
+                            text:
+                                'Your email should have the following format:\n'
+                                '\u2022 aaa@aaa@aa\n')
+                        : SizedBox(
+                            height: Dimensions.size10,
+                          ),
               SizedBox(
                 height: Dimensions.size20,
               ),
               CustomButton(
                 text: 'Reset password',
                 onTap: () {
+                  String email = _email.text.toString().trim();
                   _loader.showLoader(context);
+                  validateEmail(email);
                   resetPass();
                 },
               ),

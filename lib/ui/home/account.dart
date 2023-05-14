@@ -76,7 +76,7 @@ class _ProfilePage extends State<ProfilePage> {
                                       message: SmallText(
                                         textAlign: TextAlign.center,
                                         text:
-                                           "fridgeIT is a pioneering company that has developed a revolutionary app aimed" 
+                                           "FridgeIT is a pioneering company that has developed a revolutionary app aimed" 
                                            "at promoting sustainability in everyday life. With a strong focus on reducing food"
                                            "waste and encouraging responsible consumption, fridgeIT has created a groundbreaking IoT " 
                                            "system that combines advanced cameras and a smart lighting system. \n\n"

@@ -109,25 +109,13 @@ class _ShoppingList extends State<ShoppingList>
                             width: double.maxFinite,
                             child: Row(
                               children: [
-                                GestureDetector(
-                                  child: Container(
-                                    width: Dimensions.size20 * 4,
-                                    height: Dimensions.size100,
-                                    margin: EdgeInsets.only(
-                                      bottom: Dimensions.size10,
-                                      right: Dimensions.size30,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                              snapshot.data!['shopping_list']
-                                                  [index]['image'])),
-                                      borderRadius: BorderRadius.circular(
-                                        Dimensions.size20,
-                                      ),
-                                      color: Colors.white,
-                                    ),
+                                CircleAvatar(
+                                  backgroundColor:
+                                      ThemeColors().main.withOpacity(0),
+                                  radius: Dimensions.size40, // Image radius
+                                  backgroundImage: NetworkImage(
+                                    snapshot.data!['all_detected_products']
+                                        [index]['image'],
                                   ),
                                 ),
                                 Expanded(

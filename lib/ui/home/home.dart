@@ -49,93 +49,78 @@ class _HomePageState extends State<HomePage>
       padding: EdgeInsets.all(Dimensions.size15),
       child: Column(
         children: [
-          //Header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              StreamBuilder(
-                stream: _firestore
-                    .collection(_auth.currentUser!.uid)
-                    .doc('user_data')
-                    .snapshots(),
-                builder: ((context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Container();
-                  } else {
-                    return BigText(
-                        text:
-                            'Hello, ${snapshot.data!.get('first_name')} ${snapshot.data!.get('last_name')}',
-                        size: Dimensions.size20,
-                        fontWeight: FontWeight.bold,
-                        color: ThemeColors().main);
-                  }
-                }),
-              ),
-            ],
-          ),
           SizedBox(
             height: Dimensions.size20,
+          ),
+          Container(
+            padding: EdgeInsets.only(top: Dimensions.size20),
+            decoration: BoxDecoration(
+              color: ThemeColors().light2,
+              borderRadius: BorderRadius.circular(Dimensions.size20),
+            ),
+            height: Dimensions.size110,
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                StreamBuilder(
+                  stream: _firestore
+                      .collection(_auth.currentUser!.uid)
+                      .doc('user_data')
+                      .snapshots(),
+                  builder: ((context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Container();
+                    } else {
+                      return BigText(
+                          text:
+                              'Hello, ${snapshot.data!.get('first_name')} ${snapshot.data!.get('last_name')}',
+                          size: Dimensions.size20,
+                          fontWeight: FontWeight.bold,
+                          color: ThemeColors().main);
+                    }
+                  }),
+                ),
+                SizedBox(
+                  height: Dimensions.size5,
+                ),
+                Text(
+                  currentDate,
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: Dimensions.size30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: Dimensions.size30,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: Dimensions.size5),
+            child: BigText(
+              text: 'Recently Detected Products',
+              textAlign: TextAlign.center,
+              color: ThemeColors().main,
+              size: Dimensions.size15,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(
+            height: Dimensions.size10,
           ),
           //Body layout.
           Expanded(
             child: SingleChildScrollView(
-              
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  Container(
-                    padding: EdgeInsets.only(top: Dimensions.size20),
-                    decoration: BoxDecoration(
-                      color: ThemeColors().light2,
-                      borderRadius: BorderRadius.circular(Dimensions.size20),
-                    ),
-                    height: Dimensions.size110,
-                    width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Today',
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: Dimensions.size10,
-                          ),
-                        ),
-                        SizedBox(
-                          height: Dimensions.size5,
-                        ),
-                        Text(
-                          currentDate,
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: Dimensions.size30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: Dimensions.size20,
-                  ),
-                  //In progress section.
-                  Padding(
-                    padding: EdgeInsets.only(left: Dimensions.size5),
-                    child: BigText(
-                      text: 'Recently Detected Products',
-                      textAlign: TextAlign.center,
-                      color: ThemeColors().main,
-                      size: Dimensions.size15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    height: Dimensions.size15,
-                  ),
                   // //In progress Stream bulder.
                   SizedBox(
-                    height: Dimensions.size500,
+                    height: Dimensions.size400,
                     child: StreamBuilder(
                       stream: _firestore
                           .collection(_auth.currentUser!.uid)
@@ -167,8 +152,7 @@ class _HomePageState extends State<HomePage>
                                   ),
                                   SmallText(
                                     textAlign: TextAlign.center,
-                                    text:
-                                        'There is no recently\ndetected products yet',
+                                    text: 'There is no products yet',
                                     size: Dimensions.size15,
                                     fontWeight: FontWeight.w500,
                                     color: ThemeColors().main,
@@ -184,31 +168,22 @@ class _HomePageState extends State<HomePage>
                                 if (snapshot.data!['recently_detected_products']
                                         [index]['expiration_date'] !=
                                     null) {
+                                  var list = snapshot
+                                          .data!['recently_detected_products']
+                                      [index];
                                   return CustomContainer(
-                                    title: snapshot
-                                            .data!['recently_detected_products']
-                                        [index]['name'],
-                                    image: snapshot
-                                            .data!['recently_detected_products']
-                                        [index]['image'],
-                                    expiriation_date: snapshot
-                                            .data!['recently_detected_products']
-                                        [index]['expiration_date'],
-                                    score: snapshot
-                                            .data!['recently_detected_products']
-                                        [index]['score'],
+                                    title: list['name'],
+                                    image: list['image'],
+                                    expiriation_date: list['expiration_date'],
                                   );
                                 } else {
+                                  var list = snapshot
+                                          .data!['recently_detected_products']
+                                      [index];
                                   return CustomContainer(
-                                    title: snapshot
-                                            .data!['recently_detected_products']
-                                        [index]['name'],
-                                    image: snapshot
-                                            .data!['recently_detected_products']
-                                        [index]['image'],
-                                    score: snapshot
-                                            .data!['recently_detected_products']
-                                        [index]['score'],
+                                    title: list['name'],
+                                    image: list['image'],
+                                    
                                   );
                                 }
                               }),
@@ -217,7 +192,7 @@ class _HomePageState extends State<HomePage>
                                 childAspectRatio:
                                     Dimensions.size80 / Dimensions.size80,
                                 crossAxisCount: 2,
-                                mainAxisExtent: Dimensions.size150,
+                                mainAxisExtent: Dimensions.size140,
                               ),
                             );
                           }

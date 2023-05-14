@@ -45,18 +45,21 @@ class _ProductsList extends State<ProductsList>
     super.dispose();
   }
 
-  bool getExpirationDate(String date) {
+  Color getExpirationDate(String date) {
     var now = DateTime.now();
     date = '$date/${DateTime.now().year}';
     DateFormat format = DateFormat('d/M/y');
     DateTime expirationDate = format.parse(date);
-    print(expirationDate);
     final bool isExpired = expirationDate.isBefore(now);
-    if (isExpired == true) {
-      print(isExpired);
-      return true;
+    if (isExpired) {
+      return Colors.red;
     } else {
-      return false;
+      var difference = expirationDate.difference(now).inDays;
+      if (!isExpired && difference < 2) {
+        return Colors.orange;
+      } else {
+        return Colors.green;
+      }
     }
   }
 
@@ -70,6 +73,9 @@ class _ProductsList extends State<ProductsList>
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(
+            height: Dimensions.size50,
+          ),
               BigText(
                   text: 'All Detected Products',
                   size: Dimensions.size25,
@@ -125,26 +131,13 @@ class _ProductsList extends State<ProductsList>
                               width: double.maxFinite,
                               child: Row(
                                 children: [
-                                  GestureDetector(
-                                    child: Container(
-                                      width: Dimensions.size80,
-                                      height: Dimensions.size80,
-                                      margin: EdgeInsets.only(
-                                        bottom: Dimensions.size5,
-                                        right: Dimensions.size10,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(snapshot.data![
-                                                  'all_detected_products']
-                                              [index]['image']),
-                                        ),
-                                        borderRadius: BorderRadius.circular(
-                                          Dimensions.size20,
-                                        ),
-                                        color: Colors.white,
-                                      ),
+                                  CircleAvatar(
+                                    backgroundColor:
+                                        ThemeColors().main.withOpacity(0),
+                                    radius: Dimensions.size40, // Image radius
+                                    backgroundImage: NetworkImage(
+                                      snapshot.data!['all_detected_products']
+                                          [index]['image'],
                                     ),
                                   ),
                                   Expanded(
@@ -180,101 +173,66 @@ class _ProductsList extends State<ProductsList>
                                               ),
                                               // ignore: unnecessary_null_comparison
 
-                                              const SizedBox(
-                                                width: 6,
+                                              SizedBox(
+                                                width: Dimensions.size5,
                                               ),
-                                              snapshot.data!['all_detected_products']
-                                                              [index][
-                                                              'expiration_date']
-                                                          .toString() !=
-                                                      ""
-                                                  ? getExpirationDate(snapshot
-                                                              .data![
-                                                                  'all_detected_products']
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  snapshot.data!['all_detected_products']
                                                                   [index][
-                                                                  'expiration_date']
-                                                              .toString()) !=
-                                                          true
-                                                      ? Row(children: [
-                                                          Container(
-                                                            height: Dimensions
-                                                                .size7,
-                                                            width: Dimensions
-                                                                .size7,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color:
-                                                                  Colors.green,
-                                                              borderRadius:
-                                                                  BorderRadius.circular(
-                                                                      Dimensions
-                                                                          .size13),
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: Dimensions
-                                                                .size5,
-                                                          ),
-                                                          Text(
-                                                            snapshot.data![
-                                                                    'all_detected_products']
-                                                                    [index][
-                                                                    'expiration_date']
-                                                                .toString(),
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                                fontSize:
+                                                              'expiration_date'] !=
+                                                          null
+                                                      ? Container(
+                                                          height:
+                                                              Dimensions.size7,
+                                                          width:
+                                                              Dimensions.size7,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: getExpirationDate(
+                                                                snapshot.data![
+                                                                            'all_detected_products']
+                                                                        [index][
+                                                                    'expiration_date']),
+                                                            borderRadius:
+                                                                BorderRadius.circular(
                                                                     Dimensions
-                                                                        .size10,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                          )
-                                                        ])
-                                                      : Row(children: [
-                                                          Container(
-                                                            height: Dimensions
-                                                                .size7,
-                                                            width: Dimensions
-                                                                .size7,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: Colors.red,
-                                                              borderRadius:
-                                                                  BorderRadius.circular(
-                                                                      Dimensions
-                                                                          .size13),
-                                                            ),
+                                                                        .size13),
                                                           ),
-                                                          SizedBox(
-                                                            width: Dimensions
-                                                                .size5,
-                                                          ),
-                                                          Text(
-                                                            snapshot.data![
-                                                                    'all_detected_products']
-                                                                    [index][
-                                                                    'expiration_date']
-                                                                .toString(),
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                                fontSize:
-                                                                    Dimensions
-                                                                        .size10,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                          )
-                                                        ])
-                                                  : const SizedBox()
+                                                        )
+                                                      : SizedBox(),
+                                                  SizedBox(
+                                                    width: Dimensions.size5,
+                                                  ),
+                                                  snapshot.data!['all_detected_products']
+                                                                  [index][
+                                                              'expiration_date'] !=
+                                                          null
+                                                      ? Text(
+                                                          snapshot.data![
+                                                                      'all_detected_products']
+                                                                  [index][
+                                                              'expiration_date'],
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  Dimensions
+                                                                      .size10,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        )
+                                                      : SizedBox(
+                                                          height:
+                                                              Dimensions.size10,
+                                                        )
+                                                ],
+                                              ),
                                             ],
                                           ),
                                         Row(

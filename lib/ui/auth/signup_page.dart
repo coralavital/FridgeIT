@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
+import 'package:email_validator/email_validator.dart';
 import 'package:fridge_it/widgets/custom_button.dart';
 import 'package:fridge_it/widgets/custom_loader.dart';
 import 'package:fridge_it/resources/auth_res.dart';
@@ -12,7 +13,6 @@ import '../../theme/theme_colors.dart';
 import '../../widgets/text_field.dart';
 import '../../utils/dimensions.dart';
 import 'dart:math';
-
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -28,7 +28,12 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _password = TextEditingController();
   final CustomLoader _loader = CustomLoader();
   String _gender = "";
-  String _avatar = "";
+
+  bool showEmailError = false;
+  bool showPasswordError = false;
+  bool showFirstNameError = false;
+  bool showLastNameError = false;
+  bool showGenderError = false;
 
   @override
   void dispose() {
@@ -66,23 +71,56 @@ class _SignupPageState extends State<SignupPage> {
       avatar = femaleAvatars[Random().nextInt(femaleAvatars.length)];
     }
 
-    String res = await AuthRes().createAccount(firstName, lastName, email, gender,
-        avatar, password, all_detected_products, shopping_list, recently_detected_products);
+    String res = await AuthRes().createAccount(
+        firstName,
+        lastName,
+        email,
+        gender,
+        avatar,
+        password,
+        all_detected_products,
+        shopping_list,
+        recently_detected_products);
 
     if (res == 'success') {
       _loader.hideLoader();
       Navigator.pop(context);
     } else {
+      setState(() {});
       _loader.hideLoader();
-      Fluttertoast.showToast(
-        msg: res,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: ThemeColors().background,
-        textColor: ThemeColors().main,
-        fontSize: Dimensions.size15,
-      );
+    }
+  }
+
+  void validatePassword(String password) {
+    RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[0-9]).{6,}$');
+    if (!regex.hasMatch(password) || password.isEmpty) {
+      showPasswordError = true;
+    } else {
+      showPasswordError = false;
+    }
+  }
+
+  void validateEmail(String email) {
+    if (!EmailValidator.validate(email) || email.isEmpty) {
+      showEmailError = true;
+    } else {
+      showEmailError = false;
+    }
+  }
+
+  void validateFirstName(String firstName) {
+    if (firstName.isEmpty) {
+      showFirstNameError = true;
+    } else {
+      showFirstNameError = false;
+    }
+  }
+
+  void validateLastName(String lastName) {
+    if (lastName.isEmpty) {
+      showLastNameError = true;
+    } else {
+      showLastNameError = false;
     }
   }
 
@@ -126,84 +164,159 @@ class _SignupPageState extends State<SignupPage> {
               SizedBox(
                 height: Dimensions.size20,
               ),
-              TextFieldWidget(
-                controller: _firstName,
-                hintText: 'First Name',
-                prefixIcon: SvgPicture.asset(
-                  'assets/icons/person.svg',
-                  fit: BoxFit.none,
-                ),
-              ),
-              TextFieldWidget(
-                controller: _lastName,
-                hintText: 'Last Name',
-                prefixIcon: SvgPicture.asset(
-                  'assets/icons/person.svg',
-                  fit: BoxFit.none,
-                ),
-              ),
-              TextFieldWidget(
-                controller: _email,
-                hintText: 'Email',
-                prefixIcon: SvgPicture.asset(
-                  'assets/icons/email.svg',
-                  fit: BoxFit.none,
-                ),
-              ),
-              TextFieldWidget(
-                controller: _password,
-                hintText: 'Password',
-                prefixIcon: SvgPicture.asset(
-                  'assets/icons/lock.svg',
-                  fit: BoxFit.none,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: Dimensions.size20,
-                  right: Dimensions.size20,
-                  top: Dimensions.size10,
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: ThemeColors().main.withOpacity(0.5),
-                    borderRadius: BorderRadius.circular(Dimensions.size15),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      CustomRadioWidget(
-                        title: SmallText(text: "Male", size: Dimensions.size15, fontWeight: FontWeight.w300, color: Colors.black54,),
-                        value: "male",
-                        groupValue: _gender,
-                        onChanged: (String value) {
-                          setState(() {
-                            _gender = value;
-                          });
-                        },
+              Form(
+                  onChanged: () {
+                    String email = _email.text.toString().trim();
+                    String password = _password.text.toString().trim();
+                    String firstName = _firstName.text.toString().trim();
+                    String lastName = _lastName.text.toString().trim();
+                    validateEmail(email);
+                    validatePassword(password);
+                    validateFirstName(firstName);
+                    validateLastName(lastName);
+                    setState(() {});
+                  },
+                  autovalidateMode: AutovalidateMode.always,
+                  child: Column(children: [
+                    TextFieldWidget(
+                      controller: _firstName,
+                      hintText: 'First Name',
+                      prefixIcon: SvgPicture.asset(
+                        'assets/icons/person.svg',
+                        fit: BoxFit.none,
                       ),
-                      SizedBox(width: Dimensions.size50,),
-                      CustomRadioWidget(
-                        title: SmallText(text: "Female", size: Dimensions.size15, fontWeight: FontWeight.w300, color: Colors.black54,),
-                        value: "female",
-                        groupValue: _gender,
-                        onChanged: (String value) {
-                          setState(() {
-                            _gender = value;
-                          });
-                        },
+                    ),
+                    showFirstNameError == true
+                        ? SmallText(
+                            textAlign: TextAlign.right,
+                            text: 'Your first name should contain:\n'
+                                '\t\u2022 Only letters least one upper case\n'
+                                '\t\u2022 Must be at least 4 characters in length'
+                              )
+                        : SizedBox(
+                            height: Dimensions.size10,),
+                    TextFieldWidget(
+                      controller: _lastName,
+                      hintText: 'Last Name',
+                      prefixIcon: SvgPicture.asset(
+                        'assets/icons/person.svg',
+                        fit: BoxFit.none,
                       ),
-                    ],
-                  ),
-                ),
-              ),
+                    ),
+                     showLastNameError == true
+                        ? SmallText(
+                            textAlign: TextAlign.right,
+                            text: 'Your lase name should contain:\n'
+                                '\t\u2022 Only letters least one upper case\n'
+                                '\t\u2022 Must be at least 4 characters in length'
+                              )
+                        : SizedBox(
+                            height: Dimensions.size10,),
+                    TextFieldWidget(
+                      controller: _email,
+                      hintText: 'Email',
+                      prefixIcon: SvgPicture.asset(
+                        'assets/icons/email.svg',
+                        fit: BoxFit.none,
+                      ),
+                    ),
+                   
+                    showEmailError == true
+                        ? SmallText(
+                            textAlign: TextAlign.start,
+                            text:
+                                'Your email should contain:\n'
+                                '\u2022 aaa@aaa@aa as format')
+                        : SizedBox(
+                            height: Dimensions.size10,
+                          ),
+                    TextFieldWidget(
+                      controller: _password,
+                      hintText: 'Password',
+                      prefixIcon: SvgPicture.asset(
+                        'assets/icons/lock.svg',
+                        fit: BoxFit.none,
+                      ),
+                    ),
+               
+                    showPasswordError == true
+                        ? SmallText(
+                            textAlign: TextAlign.right,
+                            text: 'Your password should contain:\n'
+                                '\t\u2022 at least one upper case\n'
+                                '\t\u2022 at least one digit\n'
+                                '\t\u2022 Must be at least 6 characters in length')
+                        : SizedBox(
+                            height: Dimensions.size10,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: Dimensions.size20,
+                        right: Dimensions.size20,
+                        top: Dimensions.size10,
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: ThemeColors().main.withOpacity(0.5),
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.size15),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CustomRadioWidget(
+                              title: SmallText(
+                                text: "Male",
+                                size: Dimensions.size15,
+                                fontWeight: FontWeight.w300,
+                                color: Colors.black54,
+                              ),
+                              value: "male",
+                              groupValue: _gender,
+                              onChanged: (String value) {
+                                setState(() {
+                                  _gender = value;
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              width: Dimensions.size50,
+                            ),
+                            CustomRadioWidget(
+                              title: SmallText(
+                                text: "Female",
+                                size: Dimensions.size15,
+                                fontWeight: FontWeight.w300,
+                                color: Colors.black54,
+                              ),
+                              value: "female",
+                              groupValue: _gender,
+                              onChanged: (String value) {
+                                setState(() {
+                                  _gender = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ])),
               SizedBox(
                 height: Dimensions.size20,
               ),
               CustomButton(
                 text: 'Create Account',
                 onTap: () {
+                  String email = _email.text.toString().trim();
+                  String password = _password.text.toString().trim();
+                  String firstName = _firstName.text.toString().trim();
+                  String lastName = _lastName.text.toString().trim();
                   _loader.showLoader(context);
+                  validateEmail(email);
+                  validatePassword(password);
+                  validateFirstName(firstName);
+                  validateLastName(lastName);
                   createAccount();
                 },
               ),

@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, prefer_const_literals_to_create_immutables
+import 'package:email_validator/email_validator.dart';
 import 'package:fridge_it/ui/auth/reset_password.dart';
 import 'package:fridge_it/widgets/custom_button.dart';
 import 'package:fridge_it/widgets/custom_loader.dart';
 import 'package:fridge_it/ui/auth/signup_page.dart';
+import 'package:fridge_it/widgets/small_text.dart';
 import 'package:fridge_it/widgets/text_field.dart';
 import 'package:fridge_it/resources/auth_res.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
@@ -12,7 +14,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -25,6 +26,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final CustomLoader _loader = CustomLoader();
+  bool showEmailError = false;
+  bool showPasswordError = false;
 
   @override
   void dispose() {
@@ -33,10 +36,23 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  login() async {
-    String email = _email.text.toString().trim();
-    String password = _password.text.toString().trim();
+  void validatePassword(String password) {
+    if (password.isEmpty) {
+      showPasswordError = true;
+    } else {
+      showPasswordError = false;
+    }
+  }
 
+  void validateEmail(String email) {
+    if (!EmailValidator.validate(email) || email.isEmpty) {
+      showEmailError = true;
+    } else {
+      showEmailError = false;
+    }
+  }
+
+  login(String email, String password) async {
     String res = await AuthRes().login(email, password);
 
     if (res == 'success') {
@@ -49,16 +65,8 @@ class _LoginPageState extends State<LoginPage> {
       );
       Navigator.pop(context);
     } else {
+      setState(() {});
       _loader.hideLoader();
-      Fluttertoast.showToast(
-        msg: res,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: ThemeColors().background,
-        textColor: ThemeColors().main,
-        fontSize: Dimensions.size15,
-      );
     }
   }
 
@@ -68,13 +76,12 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: ThemeColors().background,
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
-            // Status bar color
-            systemNavigationBarColor: ThemeColors().background,
-            statusBarColor: ThemeColors().background,
-          ),
+          // Status bar color
+          systemNavigationBarColor: ThemeColors().background,
+          statusBarColor: ThemeColors().background,
+        ),
         backgroundColor: ThemeColors().background,
         scrolledUnderElevation: 0,
-        
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -102,30 +109,67 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: Dimensions.size20,
               ),
-              TextFieldWidget(
-                controller: _email,
-                hintText: 'Email',
-                prefixIcon: SvgPicture.asset(
-                  'assets/icons/email.svg',
-                  fit: BoxFit.none,
-                ),
-              ),
-              TextFieldWidget(
-                controller: _password,
-                hintText: 'Password',
-                prefixIcon: SvgPicture.asset(
-                  'assets/icons/lock.svg',
-                  fit: BoxFit.none,
-                ),
-              ),
+              Form(
+                  onChanged: () {
+                    String email = _email.text.toString().trim();
+                    String password = _password.text.toString().trim();
+                    validateEmail(email);
+                    validatePassword(password);
+                    setState(() {});
+                  },
+                  autovalidateMode: AutovalidateMode.always,
+                  child: Column(children: [
+                    TextFieldWidget(
+                      controller: _email,
+                      hintText: 'Email',
+                      prefixIcon: SvgPicture.asset(
+                        'assets/icons/email.svg',
+                        fit: BoxFit.none,
+                      ),
+                    ),
+                    SizedBox(
+                      height: Dimensions.size5,
+                    ),
+                    showEmailError == true
+                        ? SmallText(
+                            textAlign: TextAlign.start,
+                            text:
+                                'Your email should have the following format:\n'
+                                '\u2022 aaa@aaa@aa\n')
+                        : SizedBox(
+                            height: Dimensions.size10,
+                          ),
+                    TextFieldWidget(
+                      controller: _password,
+                      hintText: 'Password',
+                      prefixIcon: SvgPicture.asset(
+                        'assets/icons/lock.svg',
+                        fit: BoxFit.none,
+                      ),
+                    ),
+                    SizedBox(
+                      height: Dimensions.size5,
+                    ),
+                    showPasswordError == true
+                        ? SmallText(
+                            textAlign: TextAlign.right,
+                            text: 'Please enter your password\n')
+                        : SizedBox(
+                            height: Dimensions.size10,
+                          ),
+                  ])),
               SizedBox(
-                height: Dimensions.size20,
+                height: Dimensions.size30,
               ),
               CustomButton(
                 text: 'Login',
                 onTap: () {
+                  String email = _email.text.toString().trim();
+                  String password = _password.text.toString().trim();
                   _loader.showLoader(context);
-                  login();
+                  validateEmail(email);
+                  validatePassword(password);
+                  login(email, password);
                 },
               ),
               SizedBox(
@@ -189,7 +233,7 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ResetPassword(),
+                        builder: (context) => ForgotPassword(),
                       ));
                 },
                 child: Container(
@@ -197,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
                   width: double.infinity,
                   color: Colors.transparent,
                   child: Center(
-                    child: Text('Reset password'),
+                    child: Text('Forgot password?'),
                   ),
                 ),
               )

@@ -9,14 +9,12 @@ class CustomContainer extends StatefulWidget {
   final String title;
   final String image;
   String? expiriation_date;
-  String? score;
 
   CustomContainer({
     super.key,
     required this.title,
     required this.image,
     this.expiriation_date,
-    this.score,
   });
 
   @override
@@ -27,16 +25,21 @@ class _CustomContainerState extends State<CustomContainer> {
   DateTime currentDate = DateTime.now();
   late DateTime date;
 
-  bool getExpirationDate(String date) {
+  Color getExpirationDate(String date) {
     var now = DateTime.now();
-    date = date + '/' + DateTime.now().year.toString();
+    date = '$date/${DateTime.now().year}';
     DateFormat format = DateFormat('d/M/y');
     DateTime expirationDate = format.parse(date);
     final bool isExpired = expirationDate.isBefore(now);
-    if (isExpired == true) {
-      return true;
+    if (isExpired) {
+      return Colors.red;
     } else {
-      return false;
+      var difference = expirationDate.difference(now).inDays;
+      if (!isExpired && difference < 2) {
+        return Colors.orange;
+      } else {
+        return Colors.green;
+      }
     }
   }
 
@@ -64,6 +67,7 @@ class _CustomContainerState extends State<CustomContainer> {
               height: Dimensions.size5,
             ),
             CircleAvatar(
+              backgroundColor: ThemeColors().main.withOpacity(0),
               radius: Dimensions.size30, // Image radius
               backgroundImage: NetworkImage(
                 widget.image.toString(),
@@ -76,28 +80,18 @@ class _CustomContainerState extends State<CustomContainer> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 widget.expiriation_date != null
-                    ? getExpirationDate(widget.expiriation_date!) != true
-                        ? Container(
-                            height: Dimensions.size7,
-                            width: Dimensions.size7,
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius:
-                                  BorderRadius.circular(Dimensions.size13),
-                            ),
-                          )
-                        : Container(
-                            height: Dimensions.size7,
-                            width: Dimensions.size7,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius:
-                                  BorderRadius.circular(Dimensions.size13),
-                            ),
-                          )
+                    ? Container(
+                        height: Dimensions.size7,
+                        width: Dimensions.size7,
+                        decoration: BoxDecoration(
+                          color: getExpirationDate(widget.expiriation_date!),
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.size13),
+                        ),
+                      )
                     : SizedBox(),
                 SizedBox(
-                  width: 6,
+                  width: Dimensions.size5,
                 ),
                 widget.expiriation_date != null
                     ? Text(
@@ -108,26 +102,10 @@ class _CustomContainerState extends State<CustomContainer> {
                             fontWeight: FontWeight.w600),
                         overflow: TextOverflow.ellipsis,
                       )
-                    : SizedBox()
+                    : SizedBox(height: Dimensions.size10,)
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SmallText(
-                  text: "Score",
-                  textAlign: TextAlign.center,
-                  fontWeight: FontWeight.w500,
-                  size: Dimensions.size10,
-                ),
-                SmallText(
-                  text: widget.score!,
-                  textAlign: TextAlign.center,
-                  fontWeight: FontWeight.w600,
-                  size: Dimensions.size10,
-                ),
-              ],
-            ),
+           
           ],
         ),
       ),

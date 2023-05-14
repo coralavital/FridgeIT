@@ -45,21 +45,13 @@ class _MainHomeState extends State<MainHome> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: AppBar(
-          systemOverlayStyle: SystemUiOverlayStyle(
-            // Status bar color
-            systemNavigationBarColor: ThemeColors().background,
-            statusBarColor: ThemeColors().background,
-          ),
-          toolbarHeight: Dimensions.size20,
-          backgroundColor: ThemeColors().background),
       backgroundColor: ThemeColors().background,
       body: _pages[currentPage],
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(
           left: Dimensions.size15,
           right: Dimensions.size15,
-          bottom: Dimensions.size20,
+          bottom: Dimensions.size5,
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(Dimensions.size20),
