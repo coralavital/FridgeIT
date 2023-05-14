@@ -60,11 +60,14 @@ class _LoginPageState extends State<LoginPage> {
   String getMessageFromErrorCode(String errorCode) {
     switch (errorCode) {
       case "ERROR_WRONG_PASSWORD":
+        return "Wrong email or password.";
       case "wrong-password":
         return "Wrong email/password combination.";
       case "ERROR_USER_NOT_FOUND":
       case "user-not-found":
         return "No user found with this email.";
+      case 'Error while trying to login':
+        return "Wrong email/password combination.";
       default:
         return "Login failed. Please try again.";
     }
@@ -72,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
 
   login(String email, String password) async {
     String res = await AuthRes().login(email, password);
-
+    print('------------------------------------'+res);
     if (res == 'success') {
       _loader.hideLoader();
       Navigator.push(

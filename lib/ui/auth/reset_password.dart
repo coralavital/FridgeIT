@@ -43,6 +43,19 @@ class _ForgotPassword extends State<ForgotPassword> {
     }
   }
 
+  String getMessageFromErrorCode(String errorCode) {
+    switch (errorCode) {
+      case "ERROR_WRONG_PASSWORD":
+      case "wrong-password":
+        return "Wrong email/password combination.";
+      case "ERROR_USER_NOT_FOUND":
+      case "user-not-found":
+        return "No user found with this email.";
+      default:
+        return "Login failed. Please try again.";
+    }
+  }
+
   resetPass() async {
     String email = _email.text.trim().toString();
     String res = await AuthRes().resetPassword(email);
@@ -62,7 +75,7 @@ class _ForgotPassword extends State<ForgotPassword> {
       setState(() {});
       _loader.hideLoader();
       Fluttertoast.showToast(
-        msg: 'Some problem',
+        msg: getMessageFromErrorCode(res),
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -142,7 +155,7 @@ class _ForgotPassword extends State<ForgotPassword> {
                   ? SmallText(
                       color: Colors.red,
                       textAlign: TextAlign.start,
-                      text: 'Please enter your email')
+                      text: 'Please enter email')
                   : SizedBox(
                       height: Dimensions.size10,
                     ),
