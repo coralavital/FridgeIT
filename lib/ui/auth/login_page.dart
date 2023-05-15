@@ -62,20 +62,20 @@ class _LoginPageState extends State<LoginPage> {
       case "ERROR_WRONG_PASSWORD":
         return "Wrong email or password.";
       case "wrong-password":
-        return "Wrong email/password combination.";
+        return "Wrong email or password.";
       case "ERROR_USER_NOT_FOUND":
+        return "No user found with this email.";
       case "user-not-found":
         return "No user found with this email.";
       case 'Error while trying to login':
-        return "Wrong email/password combination.";
+        return "Wrong email or password.";
       default:
-        return "Login failed. Please try again.";
+        return "Wrong email or password.";
     }
   }
 
   login(String email, String password) async {
     String res = await AuthRes().login(email, password);
-    print('------------------------------------'+res);
     if (res == 'success') {
       _loader.hideLoader();
       Navigator.push(
@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               Text(
-                'Welcome back',
+                'Welcome',
                 style: TextStyle(
                   fontSize: Dimensions.size25,
                   fontWeight: FontWeight.bold,

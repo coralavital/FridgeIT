@@ -224,6 +224,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     showFirstNameError == true
                         ? SmallText(
+                          color: Colors.red,
                             textAlign: TextAlign.right,
                             text: 'Please enter first name')
                         : SizedBox(
@@ -239,6 +240,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     showLastNameError == true
                         ? SmallText(
+                          color: Colors.red,
                             textAlign: TextAlign.right,
                             text: 'Please enter last name')
                         : SizedBox(
@@ -254,6 +256,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     showEmailError == true
                         ? SmallText(
+                          color: Colors.red,
                             textAlign: TextAlign.start,
                             text:
                                 'Please enter emaill in the following format:\n'
@@ -271,7 +274,8 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     showPasswordError == true
                         ? SmallText(
-                            textAlign: TextAlign.right,
+                          color: Colors.red,
+                            textAlign: TextAlign.start,
                             text:
                                 'Please enter password with at leasy 6 characters and digits\n')
                         : SizedBox(
@@ -327,6 +331,7 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                             showGenderError == true
                         ? SmallText(
+                          color: Colors.red,
                             textAlign: TextAlign.start,
                             text:
                                 'Please please selecet an option\n'

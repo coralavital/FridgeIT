@@ -45,14 +45,12 @@ class _ForgotPassword extends State<ForgotPassword> {
 
   String getMessageFromErrorCode(String errorCode) {
     switch (errorCode) {
-      case "ERROR_WRONG_PASSWORD":
-      case "wrong-password":
-        return "Wrong email/password combination.";
-      case "ERROR_USER_NOT_FOUND":
+      case "enter email":
+        return "Enter email to continue";
       case "user-not-found":
-        return "No user found with this email.";
+        return "No user found.";
       default:
-        return "Login failed. Please try again.";
+        return "";
     }
   }
 
@@ -124,7 +122,7 @@ class _ForgotPassword extends State<ForgotPassword> {
                 height: Dimensions.size20,
               ),
               Text(
-                'Enter your email to reset password',
+                'Enter email to reset password',
                 style: TextStyle(
                   fontSize: Dimensions.size15,
                   color: ThemeColors().main,
@@ -165,8 +163,8 @@ class _ForgotPassword extends State<ForgotPassword> {
               CustomButton(
                 text: 'Reset password',
                 onTap: () {
-                  String email = _email.text.toString().trim();
                   _loader.showLoader(context);
+                  String email = _email.text.toString().trim();
                   validateEmail(email);
                   resetPass();
                 },
