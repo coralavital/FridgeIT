@@ -2,11 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../services/firestore_service.dart';
+import '../../widgets/custom_button.dart';
 import '../../widgets/custom_toast.dart';
 import 'package:flutter/material.dart';
+import '../../widgets/dialog.dart';
 import '../../widgets/small_text.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/big_text.dart';
+import '../../widgets/text_field.dart';
 
 class ShoppingList extends StatefulWidget {
   const ShoppingList({super.key});
@@ -20,6 +23,8 @@ class _ShoppingList extends State<ShoppingList>
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseFirestoreService fbS = FirebaseFirestoreService();
+
+    final TextEditingController _product = TextEditingController();
 
   CustomToast? toast;
 
@@ -211,7 +216,7 @@ class _ShoppingList extends State<ShoppingList>
                                       ),
                                     ],
                                   ),
-                                ))
+                                )),
                               ],
                             ),
                           );
