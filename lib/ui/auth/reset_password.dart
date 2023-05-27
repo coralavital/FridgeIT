@@ -73,7 +73,7 @@ class _ForgotPassword extends State<ForgotPassword> {
       setState(() {});
       _loader.hideLoader();
       Fluttertoast.showToast(
-        msg: getMessageFromErrorCode(res),
+        msg: res,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,

@@ -71,7 +71,7 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://fridgeit-d17ae-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'fridgeit-d17ae.appspot.com',
     iosClientId: '749600160177-hskivr7lt8skftqg0hniu43vjiavmr8i.apps.googleusercontent.com',
-    iosBundleId: 'com.example.babeIt',
+    iosBundleId: 'com.example.fridgeit',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -82,6 +82,6 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://fridgeit-d17ae-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'fridgeit-d17ae.appspot.com',
     iosClientId: '749600160177-hskivr7lt8skftqg0hniu43vjiavmr8i.apps.googleusercontent.com',
-    iosBundleId: 'com.example.babeIt',
+    iosBundleId: 'com.example.fridgeit',
   );
 }

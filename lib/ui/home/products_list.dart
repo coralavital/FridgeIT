@@ -46,6 +46,9 @@ class _ProductsList extends State<ProductsList>
   }
 
   Color getExpirationDate(String date) {
+    if (date == 'not founded') {
+      return Colors.yellow;
+    }
     var now = DateTime.now();
     date = '$date/${DateTime.now().year}';
     DateFormat format = DateFormat('d/M/y');
@@ -74,8 +77,8 @@ class _ProductsList extends State<ProductsList>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-            height: Dimensions.size50,
-          ),
+                height: Dimensions.size50,
+              ),
               BigText(
                   text: 'All Detected Products',
                   size: Dimensions.size25,
@@ -157,10 +160,11 @@ class _ProductsList extends State<ProductsList>
                                             ),
                                           ],
                                         ),
-                                        if (snapshot.data![
-                                                    'all_detected_products']
-                                                [index]['expiration_date'] !=
-                                            null)
+                                    
+                                      if(snapshot.data!['all_detected_products']
+                                                                  [index][
+                                                              'expiration_date'] !=
+                                                          null)
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -176,6 +180,7 @@ class _ProductsList extends State<ProductsList>
                                               SizedBox(
                                                 width: Dimensions.size5,
                                               ),
+                                      
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
@@ -202,7 +207,7 @@ class _ProductsList extends State<ProductsList>
                                                                         .size13),
                                                           ),
                                                         )
-                                                      : SizedBox(),
+                                                      : const SizedBox(),
                                                   SizedBox(
                                                     width: Dimensions.size5,
                                                   ),
@@ -232,7 +237,23 @@ class _ProductsList extends State<ProductsList>
                                                               Dimensions.size10,
                                                         )
                                                 ],
-                                              ),
+                                              )
+                                              // : Row(children: [Text(
+                                              //             'Not Founded.',
+                                              //             textAlign:
+                                              //                 TextAlign.center,
+                                              //             style: TextStyle(
+                                              //                 fontSize:
+                                              //                     Dimensions
+                                              //                         .size10,
+                                              //                 fontWeight:
+                                              //                     FontWeight
+                                              //                         .w600),
+                                              //             overflow: TextOverflow
+                                              //                 .ellipsis,
+                                              //           )
+                                                     
+                                              //   ],)
                                             ],
                                           ),
                                         Row(

@@ -12,9 +12,9 @@ class AuthRes {
     String gender,
     String avatar,
     String password,
-    List all_detected_products,
-    List shopping_list,
-    List recently_detected_products,
+    List allDetectedProducts,
+    List shoppingList,
+    List recentlyDetectedProducts,
   ) async {
     String res = 'Some error accoured';
     if (firstName.isNotEmpty &&
@@ -34,9 +34,9 @@ class AuthRes {
           'email': email,
           'genter': gender,
           'profile_picture_url': avatar,
-          'all_detected_products': all_detected_products,
-          'shopping_list': shopping_list,
-          'recently_detected_products': recently_detected_products,
+          'all_detected_products': allDetectedProducts,
+          'shopping_list': shoppingList,
+          'recently_detected_products': recentlyDetectedProducts,
         });
         res = 'success';
       } on FirebaseAuthException catch (e) {
