@@ -166,7 +166,12 @@ class _ForgotPassword extends State<ForgotPassword> {
                   _loader.showLoader(context);
                   String email = _email.text.toString().trim();
                   validateEmail(email);
-                  resetPass();
+                  if (!showEmailError) {
+                    resetPass();
+                  } else {
+                    _loader.hideLoader();
+                    setState(() {});
+                  }
                 },
               ),
               SizedBox(

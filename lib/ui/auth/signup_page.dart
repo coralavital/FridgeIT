@@ -334,14 +334,14 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                       ),
                     ),
-                    // showGenderError == true
-                    //     ? SmallText(
-                    //         color: Colors.red,
-                    //         textAlign: TextAlign.start,
-                    //         text: 'Please please selecet an option\n')
-                    //     : SizedBox(
-                    //         height: Dimensions.size10,
-                    //       ),
+                    showGenderError == true
+                        ? SmallText(
+                            color: Colors.red,
+                            textAlign: TextAlign.start,
+                            text: 'Please please selecet an option\n')
+                        : SizedBox(
+                            height: Dimensions.size10,
+                          ),
                   ])),
               SizedBox(
                 height: Dimensions.size20,

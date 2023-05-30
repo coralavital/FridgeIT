@@ -86,7 +86,6 @@ class _LoginPageState extends State<LoginPage> {
       );
       Navigator.pop(context);
     } else {
-      setState(() {});
       _loader.hideLoader();
       Fluttertoast.showToast(
         msg: getMessageFromErrorCode(res),
@@ -143,6 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                   onChanged: () {
                     String email = _email.text.toString().trim();
                     String password = _password.text.toString().trim();
+
                     validateEmail(email);
                     validatePassword(password);
                     setState(() {});
@@ -166,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                             textAlign: TextAlign.start,
                             text: 'Please enter your email')
                         : SizedBox(
-                            height: Dimensions.size10,
+                            height: Dimensions.size5,
                           ),
                     TextFieldWidget(
                       controller: _password,
@@ -179,13 +179,13 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: Dimensions.size5,
                     ),
-                    showPasswordError == true 
+                    showPasswordError == true
                         ? SmallText(
                             color: Colors.red,
                             textAlign: TextAlign.right,
                             text: 'Please enter your password\n')
                         : SizedBox(
-                            height: Dimensions.size10,
+                            height: Dimensions.size5,
                           ),
                   ])),
               SizedBox(
@@ -200,6 +200,12 @@ class _LoginPageState extends State<LoginPage> {
                   validateEmail(email);
                   validatePassword(password);
                   login(email, password);
+                  if (!showEmailError && !showPasswordError) {
+                    login(email, password);
+                  } else {
+                    _loader.hideLoader();
+                    setState(() {});
+                  }
                 },
               ),
               SizedBox(
