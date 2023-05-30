@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fridge_it/widgets/custom_button.dart';
 import 'package:fridge_it/widgets/custom_loader.dart';
 import 'package:fridge_it/resources/auth_res.dart';
@@ -71,12 +72,8 @@ class _SignupPageState extends State<SignupPage> {
     super.setState(fn);
   }
 
-  createAccount() async {
-    String firstName = _firstName.text.toString().trim();
-    String lastName = _lastName.text.toString().trim();
-    String email = _email.text.toString().trim();
-    String password = _password.text.toString().trim();
-    String gender = _gender.toString().trim();
+  createAccount(String firstName, String lastName, String email,
+      String password, String gender) async {
     String avatar;
     List all_detected_products = [];
     List shopping_list = [];
@@ -160,6 +157,7 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth.instance.signOut();
     return Scaffold(
       backgroundColor: ThemeColors().background,
       appBar: AppBar(
@@ -221,6 +219,7 @@ class _SignupPageState extends State<SignupPage> {
                         'assets/icons/person.svg',
                         fit: BoxFit.none,
                       ),
+                      
                     ),
                     showFirstNameError == true
                         ? SmallText(
@@ -253,6 +252,7 @@ class _SignupPageState extends State<SignupPage> {
                         'assets/icons/email.svg',
                         fit: BoxFit.none,
                       ),
+                    
                     ),
                     showEmailError == true
                         ? SmallText(
@@ -271,13 +271,14 @@ class _SignupPageState extends State<SignupPage> {
                         'assets/icons/lock.svg',
                         fit: BoxFit.none,
                       ),
+                    
                     ),
                     showPasswordError == true
                         ? SmallText(
                             color: Colors.red,
-                            textAlign: TextAlign.start,
+                            textAlign: TextAlign.center,
                             text:
-                                'Please enter password with at least 6 characters and digits\n')
+                                'Please enter password with at least \n6 characters and digits\n')
                         : SizedBox(
                             height: Dimensions.size10,
                           ),
@@ -333,14 +334,14 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                       ),
                     ),
-                    showGenderError == true
-                        ? SmallText(
-                            color: Colors.red,
-                            textAlign: TextAlign.start,
-                            text: 'Please please selecet an option\n')
-                        : SizedBox(
-                            height: Dimensions.size10,
-                          ),
+                    // showGenderError == true
+                    //     ? SmallText(
+                    //         color: Colors.red,
+                    //         textAlign: TextAlign.start,
+                    //         text: 'Please please selecet an option\n')
+                    //     : SizedBox(
+                    //         height: Dimensions.size10,
+                    //       ),
                   ])),
               SizedBox(
                 height: Dimensions.size20,
@@ -353,11 +354,22 @@ class _SignupPageState extends State<SignupPage> {
                   String password = _password.text.toString().trim();
                   String firstName = _firstName.text.toString().trim();
                   String lastName = _lastName.text.toString().trim();
+                  String gender = _gender.toString().trim();
                   validateEmail(email);
                   validatePassword(password);
                   validateFirstName(firstName);
                   validateLastName(lastName);
-                  createAccount();
+                  validateGender(gender);
+                  if (!showEmailError &&
+                      !showGenderError &&
+                      !showLastNameError &&
+                      !showFirstNameError &&
+                      !showPasswordError) {
+                    createAccount(firstName, lastName, email, password, gender);
+                  } else {
+                    _loader.hideLoader();
+                    setState(() {});
+                  }
                 },
               ),
               SizedBox(

@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: Dimensions.size5,
                     ),
-                    showPasswordError == true
+                    showPasswordError == true 
                         ? SmallText(
                             color: Colors.red,
                             textAlign: TextAlign.right,

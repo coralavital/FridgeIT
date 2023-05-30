@@ -25,12 +25,12 @@ class _CustomContainerState extends State<CustomContainer> {
   DateTime currentDate = DateTime.now();
   late DateTime date;
 
-  Color getExpirationDate(String date) {
+    Color getExpirationDate(String date) {
     if (date == 'not founded') {
       return Colors.yellow;
     }
     var now = DateTime.now();
-    if (date.length < 10) {
+    if (date.length < 10 && date.length > 6) {
       var year = int.parse(date.substring(6));
       date = date.substring(0, 6);
       date += (year + 2000).toString();
