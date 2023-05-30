@@ -45,11 +45,16 @@ class _ProductsList extends State<ProductsList>
     super.dispose();
   }
 
-  Color getExpirationDate(String date) {
+    Color getExpirationDate(String date) {
     if (date == 'not founded') {
       return Colors.yellow;
     }
     var now = DateTime.now();
+    if (date.length < 10) {
+      var year = int.parse(date.substring(6));
+      date = date.substring(0, 6);
+      date += (year + 2000).toString();
+    }
     date = '$date/${DateTime.now().year}';
     DateFormat format = DateFormat('d/M/y');
     DateTime expirationDate = format.parse(date);
