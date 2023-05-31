@@ -1,7 +1,7 @@
-## Flutter Application Repository
+# Flutter Application Repository
 This repository contains a Flutter application developed using the Dart programming language. The application is designed to run on multiple platforms, including iOS, Android, and web.
 
-# Installation
+## Installation
 To run the Flutter application locally, please follow these steps:
 
 1. Make sure you have Flutter and Dart installed on your machine. If not, refer to the [official Flutter documentation](https://flutter.dev/docs/get-started/install) for installation instructions.
@@ -20,7 +20,7 @@ To run the Flutter application locally, please follow these steps:
   This command will launch the application on the connected device or emulator.\
 
 
-# Features
+## Features
 This application plays a crucial role within a comprehensive system that combines IoT technology and artificial intelligence, encompassing advanced object recognition and image processing models.
 
 With this user-friendly application, users can effortlessly access information about the contents of their home refrigerator. Gone are the days of manual inventory checks or the need to physically open the refrigerator to know what's inside.
@@ -29,7 +29,7 @@ By leveraging the power of IoT instrumentation and cutting-edge AI algorithms, t
 
 Embracing the latest technological advancements, our application enhances the user's daily life by simplifying the process of managing and organizing their refrigerator contents. Say goodbye to guesswork and hello to effortless access to crucial information, all at the fingertips of the user.
 
-# Contributing
+## Contributing
 We welcome contributions to enhance the Flutter application. To contribute, please follow these steps:
 
 Fork the repository.
@@ -39,7 +39,7 @@ Commit and push your changes to your forked repository.
 Submit a pull request to the main repository.
 Please ensure that your code follows the project's coding conventions and includes appropriate documentation.
 
-# License
+## License
 This Flutter application is open source and is released under the MIT License. You are free to use, modify, and distribute the code as per the terms of the license.
 
 
