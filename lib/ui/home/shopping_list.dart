@@ -119,7 +119,7 @@ class _ShoppingList extends State<ShoppingList>
                                       ThemeColors().main.withOpacity(0),
                                   radius: Dimensions.size40, // Image radius
                                   backgroundImage: NetworkImage(
-                                    snapshot.data!['all_detected_products']
+                                    snapshot.data!['shoping_list']
                                         [index]['image'],
                                   ),
                                 ),

@@ -46,7 +46,7 @@ class _ProductsList extends State<ProductsList>
   }
 
     Color getExpirationDate(String date) {
-    if (date == 'not founded') {
+    if (date == 'not founded' || date == 'not found') {
       return Colors.yellow;
     }
     var now = DateTime.now();
