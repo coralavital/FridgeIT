@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/rendering.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -27,6 +28,9 @@ class _ProductsList extends State<ProductsList>
   late AnimationController controller;
   late Animation<double> animation;
 
+  ScrollController scrollViewColtroller = ScrollController();
+  bool _direction = false;
+
   @override
   void initState() {
     super.initState();
@@ -37,15 +41,50 @@ class _ProductsList extends State<ProductsList>
       ..forward()
       ..repeat(reverse: true);
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(controller);
+
+    scrollViewColtroller = ScrollController();
+    scrollViewColtroller.addListener(_scrollListener);
+  }
+
+  _scrollListener() {
+    if (scrollViewColtroller.offset >=
+            scrollViewColtroller.position.maxScrollExtent &&
+        !scrollViewColtroller.position.outOfRange) {
+      setState(() {
+        _direction = true;
+      });
+    }
+    if (scrollViewColtroller.offset <=
+            scrollViewColtroller.position.minScrollExtent &&
+        !scrollViewColtroller.position.outOfRange) {
+      setState(() {
+        _direction = false;
+      });
+    }
   }
 
   @override
   void dispose() {
-    controller.dispose();
     super.dispose();
+    controller.dispose();
+    scrollViewColtroller.dispose();
   }
 
-    Color getExpirationDate(String date) {
+  _moveUp() {
+    scrollViewColtroller.animateTo(
+        scrollViewColtroller.position.minScrollExtent,
+        curve: Curves.linear,
+        duration: Duration(milliseconds: 500));
+  }
+
+  _moveDown() {
+    scrollViewColtroller.animateTo(
+        scrollViewColtroller.position.maxScrollExtent,
+        curve: Curves.linear,
+        duration: Duration(milliseconds: 500));
+  }
+
+  Color getExpirationDate(String date) {
     if (date == 'not founded' || date == 'not found') {
       return Colors.yellow;
     }
@@ -73,294 +112,377 @@ class _ProductsList extends State<ProductsList>
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(Dimensions.size15),
-      child: Column(
-        children: [
-          //Header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: Dimensions.size50,
+    return Scaffold(
+        backgroundColor: ThemeColors().background,
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Visibility(
+              visible: _direction,
+              maintainSize: false,
+              child: FloatingActionButton(
+                backgroundColor: ThemeColors().light1,
+                onPressed: () {
+                  _moveUp();
+                },
+                child: const RotatedBox(
+                    quarterTurns: 1, child: Icon(Icons.chevron_left)),
               ),
-              BigText(
-                  text: 'All Detected Products',
-                  size: Dimensions.size25,
-                  fontWeight: FontWeight.bold,
-                  color: ThemeColors().main),
-            ],
-          ),
-          SizedBox(
-            height: Dimensions.size25,
-          ),
-          //Body
-          Expanded(
-            child: StreamBuilder(
-                stream: _firestore
-                    .collection(_auth.currentUser!.uid)
-                    .doc('user_data')
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Container();
-                  } else {
-                    if (snapshot.data!['all_detected_products'].length == 0) {
-                      return Center(
-                        child: Column(children: [
-                          SizedBox(
-                            height: Dimensions.size160,
-                          ),
-                          AnimatedIcon(
-                            icon: AnimatedIcons.list_view,
-                            color: ThemeColors().light1,
-                            progress: animation,
-                            size: Dimensions.size30,
-                            semanticLabel: 'Loadding',
-                          ),
-                          SizedBox(
-                            height: Dimensions.size15,
-                          ),
-                          SmallText(
-                            text: 'There is no products yet',
-                            size: Dimensions.size15,
-                            fontWeight: FontWeight.w500,
-                            color: ThemeColors().main,
-                          ),
-                        ]),
-                      );
-                    } else {
-                      return ListView.builder(
-                          itemCount:
-                              snapshot.data!['all_detected_products'].length,
-                          itemBuilder: (_, index) {
-                            return SizedBox(
-                              height: Dimensions.size100,
-                              width: double.maxFinite,
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor:
-                                        ThemeColors().main.withOpacity(0),
-                                    radius: Dimensions.size40, // Image radius
-                                    backgroundImage: NetworkImage(
-                                      snapshot.data!['all_detected_products']
-                                          [index]['image'],
-                                    ),
+            ),
+            Visibility(
+              maintainSize: false,
+              visible: !_direction,
+              child: FloatingActionButton(
+                backgroundColor: ThemeColors().light1,
+                onPressed: () {
+                  _moveDown();
+                },
+                child: const RotatedBox(
+                    quarterTurns: 3, child: Icon(Icons.chevron_left)),
+              ),
+            )
+          ],
+        ),
+        body: NotificationListener<ScrollUpdateNotification>(
+            onNotification: (ScrollNotification scrollInfo) {
+              if (scrollViewColtroller.position.userScrollDirection ==
+                  ScrollDirection.reverse) {
+                print('User is going down');
+                setState(() {
+                  _direction = true;
+                });
+              } else {
+                if (scrollViewColtroller.position.userScrollDirection ==
+                    ScrollDirection.forward) {
+                  print('User is going up');
+                  setState(() {
+                    _direction = false;
+                  });
+                }
+              }
+              return true;
+            },
+            child: Padding(
+              padding: EdgeInsets.all(Dimensions.size15),
+              child: Column(
+                children: [
+                  //Header
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: Dimensions.size50,
+                      ),
+                      BigText(
+                          text: 'All Detected Products',
+                          size: Dimensions.size25,
+                          fontWeight: FontWeight.bold,
+                          color: ThemeColors().main),
+                    ],
+                  ),
+                  SizedBox(
+                    height: Dimensions.size25,
+                  ),
+                  //Body
+                  Expanded(
+                    child: StreamBuilder(
+                        stream: _firestore
+                            .collection(_auth.currentUser!.uid)
+                            .doc('user_data')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return Container();
+                          } else {
+                            if (snapshot
+                                    .data!['all_detected_products'].length ==
+                                0) {
+                              return Center(
+                                child: Column(children: [
+                                  SizedBox(
+                                    height: Dimensions.size160,
                                   ),
-                                  Expanded(
-                                      child: SizedBox(
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            BigText(
-                                              text: snapshot.data![
+                                  AnimatedIcon(
+                                    icon: AnimatedIcons.list_view,
+                                    color: ThemeColors().light1,
+                                    progress: animation,
+                                    size: Dimensions.size30,
+                                    semanticLabel: 'Loadding',
+                                  ),
+                                  SizedBox(
+                                    height: Dimensions.size15,
+                                  ),
+                                  SmallText(
+                                    text: 'There is no products yet',
+                                    size: Dimensions.size15,
+                                    fontWeight: FontWeight.w500,
+                                    color: ThemeColors().main,
+                                  ),
+                                ]),
+                              );
+                            } else {
+                              return ListView.builder(
+                                  controller: scrollViewColtroller,
+                                  itemCount: snapshot
+                                      .data!['all_detected_products'].length,
+                                  itemBuilder: (_, index) {
+                                    return SizedBox(
+                                      height: Dimensions.size100,
+                                      width: double.maxFinite,
+                                      child: Row(
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundColor: ThemeColors()
+                                                .main
+                                                .withOpacity(0),
+                                            radius: Dimensions
+                                                .size40, // Image radius
+                                            backgroundImage: NetworkImage(
+                                              snapshot.data![
                                                       'all_detected_products']
-                                                  [index]['name'],
-                                              size: Dimensions.size20,
-                                              color: ThemeColors().main,
+                                                  [index]['image'],
                                             ),
-                                          ],
-                                        ),
-                                    
-                                      if(snapshot.data!['all_detected_products']
-                                                                  [index][
-                                                              'expiration_date'] !=
-                                                          null)
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              SmallText(
-                                                text: "Expiration Date",
-                                                textAlign: TextAlign.center,
-                                                fontWeight: FontWeight.w500,
-                                                size: Dimensions.size10,
-                                              ),
-                                              // ignore: unnecessary_null_comparison
-
-                                              SizedBox(
-                                                width: Dimensions.size5,
-                                              ),
-                                      
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  snapshot.data!['all_detected_products']
-                                                                  [index][
-                                                              'expiration_date'] !=
-                                                          null
-                                                      ? Container(
-                                                          height:
-                                                              Dimensions.size7,
-                                                          width:
-                                                              Dimensions.size7,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: getExpirationDate(
-                                                                snapshot.data![
-                                                                            'all_detected_products']
-                                                                        [index][
-                                                                    'expiration_date']),
-                                                            borderRadius:
-                                                                BorderRadius.circular(
-                                                                    Dimensions
-                                                                        .size13),
-                                                          ),
-                                                        )
-                                                      : const SizedBox(),
-                                                  SizedBox(
-                                                    width: Dimensions.size5,
-                                                  ),
-                                                  snapshot.data!['all_detected_products']
-                                                                  [index][
-                                                              'expiration_date'] !=
-                                                          null
-                                                      ? Text(
-                                                          snapshot.data![
-                                                                      'all_detected_products']
-                                                                  [index][
-                                                              'expiration_date'],
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  Dimensions
-                                                                      .size10,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        )
-                                                      : SizedBox(
-                                                          height:
-                                                              Dimensions.size10,
-                                                        )
-                                                ],
-                                              )
-                                              // : Row(children: [Text(
-                                              //             'Not Founded.',
-                                              //             textAlign:
-                                              //                 TextAlign.center,
-                                              //             style: TextStyle(
-                                              //                 fontSize:
-                                              //                     Dimensions
-                                              //                         .size10,
-                                              //                 fontWeight:
-                                              //                     FontWeight
-                                              //                         .w600),
-                                              //             overflow: TextOverflow
-                                              //                 .ellipsis,
-                                              //           )
-                                                     
-                                              //   ],)
-                                            ],
                                           ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            SmallText(
-                                              text: "Score",
-                                              textAlign: TextAlign.center,
-                                              fontWeight: FontWeight.w500,
-                                              size: Dimensions.size10,
-                                            ),
-                                            SmallText(
-                                              text: snapshot.data![
-                                                      'all_detected_products']
-                                                      [index]['score']
-                                                  .toString(),
-                                              textAlign: TextAlign.center,
-                                              fontWeight: FontWeight.w600,
-                                              size: Dimensions.size10,
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            (snapshot.data!['shopping_list']
-                                                        .toString()
-                                                        .contains(snapshot
-                                                            .data![
-                                                                'all_detected_products']
-                                                                [index]
-                                                                ['created_date']
-                                                            .toString()) ==
-                                                    false)
-                                                ? TextButton(
-                                                    style: ButtonStyle(
-                                                      shape: MaterialStateProperty
-                                                          .all<
-                                                              RoundedRectangleBorder>(
-                                                        RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      Dimensions
-                                                                          .size20),
-                                                        ),
-                                                      ),
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all<
-                                                                      Color>(
-                                                                  ThemeColors()
-                                                                      .main),
+                                          Expanded(
+                                              child: SizedBox(
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    BigText(
+                                                      text: snapshot.data![
+                                                              'all_detected_products']
+                                                          [index]['name'],
+                                                      size: Dimensions.size20,
+                                                      color: ThemeColors().main,
                                                     ),
-                                                    onPressed: () {
-                                                      fbS.addToShoppingList(
-                                                          snapshot.data![
-                                                                  'all_detected_products']
-                                                              [index]['name'],
-                                                          snapshot.data![
-                                                                  'all_detected_products']
-                                                              [index]['image'],
-                                                          1,
-                                                          snapshot.data![
-                                                                      'all_detected_products']
-                                                                  [index]
-                                                              ['created_date']);
-                                                      toast = CustomToast(
-                                                          message:
-                                                              "The product has been added\nto the shopping cart",
-                                                          context: context);
-                                                      toast?.showCustomToast();
-                                                    },
-                                                    child: SmallText(
-                                                      text:
-                                                          "Add To Shopping List",
-                                                      color: Colors.white,
-                                                      size: Dimensions.size10,
+                                                  ],
+                                                ),
+                                                if (snapshot.data![
+                                                                'all_detected_products']
+                                                            [index]
+                                                        ['expiration_date'] !=
+                                                    null)
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      SmallText(
+                                                        text: "Expiration Date",
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        size: Dimensions.size10,
+                                                      ),
+                                                      // ignore: unnecessary_null_comparison
+
+                                                      SizedBox(
+                                                        width: Dimensions.size5,
+                                                      ),
+
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          snapshot.data!['all_detected_products']
+                                                                          [
+                                                                          index]
+                                                                      [
+                                                                      'expiration_date'] !=
+                                                                  null
+                                                              ? Container(
+                                                                  height:
+                                                                      Dimensions
+                                                                          .size7,
+                                                                  width:
+                                                                      Dimensions
+                                                                          .size7,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: getExpirationDate(snapshot.data!['all_detected_products']
+                                                                            [
+                                                                            index]
+                                                                        [
+                                                                        'expiration_date']),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            Dimensions.size13),
+                                                                  ),
+                                                                )
+                                                              : const SizedBox(),
+                                                          SizedBox(
+                                                            width: Dimensions
+                                                                .size5,
+                                                          ),
+                                                          snapshot.data!['all_detected_products']
+                                                                          [
+                                                                          index]
+                                                                      [
+                                                                      'expiration_date'] !=
+                                                                  null
+                                                              ? Text(
+                                                                  snapshot.data![
+                                                                              'all_detected_products']
+                                                                          [
+                                                                          index]
+                                                                      [
+                                                                      'expiration_date'],
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          Dimensions
+                                                                              .size10,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                )
+                                                              : SizedBox(
+                                                                  height:
+                                                                      Dimensions
+                                                                          .size10,
+                                                                )
+                                                        ],
+                                                      )
+                                                      // : Row(children: [Text(
+                                                      //             'Not Founded.',
+                                                      //             textAlign:
+                                                      //                 TextAlign.center,
+                                                      //             style: TextStyle(
+                                                      //                 fontSize:
+                                                      //                     Dimensions
+                                                      //                         .size10,
+                                                      //                 fontWeight:
+                                                      //                     FontWeight
+                                                      //                         .w600),
+                                                      //             overflow: TextOverflow
+                                                      //                 .ellipsis,
+                                                      //           )
+
+                                                      //   ],)
+                                                    ],
+                                                  ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    SmallText(
+                                                      text: "Score",
+                                                      textAlign:
+                                                          TextAlign.center,
                                                       fontWeight:
                                                           FontWeight.w500,
+                                                      size: Dimensions.size10,
                                                     ),
-                                                  )
-                                                : const SizedBox()
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                                ],
-                              ),
-                            );
-                          });
-                    }
-                  }
-                }),
-          ),
-        ],
-      ),
-    );
+                                                    SmallText(
+                                                      text: snapshot.data![
+                                                              'all_detected_products']
+                                                              [index]['score']
+                                                          .toString(),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      size: Dimensions.size10,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    (snapshot.data!['shopping_list']
+                                                                .toString()
+                                                                .contains(snapshot
+                                                                    .data![
+                                                                        'all_detected_products']
+                                                                        [index][
+                                                                        'created_date']
+                                                                    .toString()) ==
+                                                            false)
+                                                        ? TextButton(
+                                                            style: ButtonStyle(
+                                                              shape: MaterialStateProperty
+                                                                  .all<
+                                                                      RoundedRectangleBorder>(
+                                                                RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.circular(
+                                                                          Dimensions
+                                                                              .size20),
+                                                                ),
+                                                              ),
+                                                              backgroundColor:
+                                                                  MaterialStateProperty.all<
+                                                                          Color>(
+                                                                      ThemeColors()
+                                                                          .main),
+                                                            ),
+                                                            onPressed: () {
+                                                              fbS.addToShoppingList(
+                                                                  snapshot.data![
+                                                                              'all_detected_products']
+                                                                          [index]
+                                                                      ['name'],
+                                                                  snapshot.data![
+                                                                              'all_detected_products']
+                                                                          [index]
+                                                                      ['image'],
+                                                                  1,
+                                                                  snapshot.data![
+                                                                              'all_detected_products']
+                                                                          [
+                                                                          index]
+                                                                      [
+                                                                      'created_date']);
+                                                              toast = CustomToast(
+                                                                  message:
+                                                                      "The product has been added\nto the shopping cart",
+                                                                  context:
+                                                                      context);
+                                                              toast
+                                                                  ?.showCustomToast();
+                                                            },
+                                                            child: SmallText(
+                                                              text:
+                                                                  "Add To Shopping List",
+                                                              color:
+                                                                  Colors.white,
+                                                              size: Dimensions
+                                                                  .size10,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          )
+                                                        : const SizedBox()
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+                                        ],
+                                      ),
+                                    );
+                                  });
+                            }
+                          }
+                        }),
+                  ),
+                ],
+              ),
+            )));
   }
 }
