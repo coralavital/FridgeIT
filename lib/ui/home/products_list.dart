@@ -194,9 +194,8 @@ class _ProductsList extends State<ProductsList>
                           if (!snapshot.hasData) {
                             return Container();
                           } else {
-                            if (snapshot
-                                    .data!['all_detected_products'].length ==
-                                0) {
+                            if (!snapshot
+                                    .data!.exists || snapshot.data!['recently_detected_products'].length == 0) {
                               return Center(
                                 child: Column(children: [
                                   SizedBox(

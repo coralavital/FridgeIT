@@ -2,6 +2,7 @@ import 'package:fridge_it/widgets/custom_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fridge_it/theme/theme_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import '../../widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/big_text.dart';
@@ -130,71 +131,68 @@ class _HomePageState extends State<HomePage>
                         if (!snapshot.hasData) {
                           return Container();
                         } else {
-                          if (snapshot
-                                  .data!['recently_detected_products'].length ==
-                              0) {
-                            return Padding(
+                          try {
+                            var data =
+                                snapshot.data!['recently_detected_products'];
+                            if (data == null || data.length == 0) {
+                              return Padding(
+                                  padding:
+                                      EdgeInsets.only(left: Dimensions.size5),
+                                  child: Column(children: [
+                                    SizedBox(
+                                      height: Dimensions.size70,
+                                    ),
+                                    AnimatedIcon(
+                                      icon: AnimatedIcons.list_view,
+                                      color: ThemeColors().light1,
+                                      progress: animation,
+                                      size: Dimensions.size30,
+                                      semanticLabel: 'Loadding',
+                                    ),
+                                    SizedBox(
+                                      height: Dimensions.size15,
+                                    ),
+                                    SmallText(
+                                      textAlign: TextAlign.center,
+                                      text: 'There is no products yet',
+                                      size: Dimensions.size15,
+                                      fontWeight: FontWeight.w500,
+                                      color: ThemeColors().main,
+                                    ),
+                                  ]));
+                            } else {
+                              return GridView.builder(
                                 padding:
                                     EdgeInsets.only(left: Dimensions.size5),
-                                child: Column(children: [
-                                  SizedBox(
-                                    height: Dimensions.size70,
-                                  ),
-                                  AnimatedIcon(
-                                    icon: AnimatedIcons.list_view,
-                                    color: ThemeColors().light1,
-                                    progress: animation,
-                                    size: Dimensions.size30,
-                                    semanticLabel: 'Loadding',
-                                  ),
-                                  SizedBox(
-                                    height: Dimensions.size15,
-                                  ),
-                                  SmallText(
-                                    textAlign: TextAlign.center,
-                                    text: 'There is no products yet',
-                                    size: Dimensions.size15,
-                                    fontWeight: FontWeight.w500,
-                                    color: ThemeColors().main,
-                                  ),
-                                ]));
-                          } else {
-                            return GridView.builder(
-                              padding: EdgeInsets.only(left: Dimensions.size5),
-                              itemCount: snapshot
-                                  .data!['recently_detected_products'].length,
-                              physics: const BouncingScrollPhysics(),
-                              itemBuilder: ((context, index) {
-                                if (snapshot.data!['recently_detected_products']
-                                        [index]['expiration_date'] !=
-                                    null) {
-                                  var list = snapshot
-                                          .data!['recently_detected_products']
-                                      [index];
-                                  return CustomContainer(
-                                    title: list['name'],
-                                    image: list['image'],
-                                    expiriation_date: list['expiration_date'],
-                                  );
-                                } else {
-                                  var list = snapshot
-                                          .data!['recently_detected_products']
-                                      [index];
-                                  return CustomContainer(
-                                    title: list['name'],
-                                    image: list['image'],
-                                    
-                                  );
-                                }
-                              }),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                childAspectRatio:
-                                    Dimensions.size80 / Dimensions.size80,
-                                crossAxisCount: 2,
-                                mainAxisExtent: Dimensions.size140,
-                              ),
-                            );
+                                itemCount: data.length,
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: ((context, index) {
+                                  if (data[index]['expiration_date'] != null) {
+                                    var list = data[index];
+                                    return CustomContainer(
+                                      title: list['name'],
+                                      image: list['image'],
+                                      expiriation_date: list['expiration_date'],
+                                    );
+                                  } else {
+                                    var list = data[index];
+                                    return CustomContainer(
+                                      title: list['name'],
+                                      image: list['image'],
+                                    );
+                                  }
+                                }),
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio:
+                                      Dimensions.size80 / Dimensions.size80,
+                                  crossAxisCount: 2,
+                                  mainAxisExtent: Dimensions.size140,
+                                ),
+                              );
+                            }
+                          } catch (err) {
+                            return Container();
                           }
                         }
                       },
