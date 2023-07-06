@@ -1,5 +1,5 @@
 # FridgeIT Application 
-[This repository contains a Flutter application developed using the Dart programming language. The application is designed to run on multiple platforms, including iOS, Android, and web.](https://github.com/coralavital/FridgeIT-Application.git)
+This repository contains a Flutter application developed using the Dart programming language. The application is designed to run on multiple platforms, including iOS, Android, and web.
 
 ## Installation
 To run the Flutter application locally, please follow these steps:
@@ -7,7 +7,7 @@ To run the Flutter application locally, please follow these steps:
 1. Make sure you have Flutter and Dart installed on your machine. If not, refer to the [official Flutter documentation](https://flutter.dev/docs/get-started/install) for installation instructions.
 
 2. Clone this repository to your local machine using the following command:
-  git clone [https://github.com/your-username/flutter-app.git](https://github.com/coralavital/FridgeIT_Flutter_Application.git )
+  git clone https://github.com/coralavital/FridgeIT_Flutter_Application.git
 
 3. Navigate to the project directory:
   cd flutter-app
@@ -19,7 +19,6 @@ To run the Flutter application locally, please follow these steps:
   flutter run
   This command will launch the application on the connected device or emulator.
 
-
 ## Features
 # Application README
 
@@ -27,7 +26,6 @@ This repository contains the source code for our application, which provides var
 
 ## Login Screen
 The login screen allows users to access the application by logging in with their credentials. It includes two fields - email and password. After entering the required login details, users can click on the "Login" button to access the main home page. If users haven't registered yet, they can click on the "Register" button. In case users have forgotten their password, they can click on the "I forgot my password" button.
-<img src="[/path/to/img.jpg](https://drive.google.com/file/d/1yN_W0sOiehbLsuheBjgydbmKJc1sBvuN/view?usp=drive_link)" alt="Alt text" title="Optional title">
 
 ## Signup Screen
 The signup screen is designed for users who are new to the application. It contains several mandatory fields such as first name, last name, email, password, and gender. After providing the necessary registration information, users can click on the "Register" button to create an account and automatically navigate to the main home page. If users are already registered, they can click on the "Login" button. In case users forget their password, they can click on the "I forgot my password" button.
@@ -46,6 +44,21 @@ The shopping list screen allows users to view and manage their selected items fo
 
 ## Profile Screen
 The profile screen provides users with information about the application and offers help resources. Users can log out of their account by clicking on the "Logout" button. Additionally, users have the option to delete their account by clicking on the "Delete account" button. If the user chooses to delete the account, a confirmation dialog will appear to confirm or cancel the deletion. Once the account is deleted, the user will be automatically redirected to the login page.
+
+
+## Screenshots
+#### Sign up
+![sign up](https://github.com/YoniIfrah/fridgeIT/assets/73611785/9cbd1cf0-3329-439f-953f-cc86d95eb735)
+
+#### Recently detected products
+![home screen](https://github.com/YoniIfrah/fridgeIT/assets/73611785/347637a4-37e8-4385-825c-1e2ca65f5c81)
+
+#### Shopping list
+![shopping list two products quantity 1](https://github.com/YoniIfrah/fridgeIT/assets/73611785/1deff53a-5af5-438f-a8b2-3e53d9fca05b)
+
+#### All detected products
+![all detected products screen](https://github.com/YoniIfrah/fridgeIT/assets/73611785/48bf970f-5316-45c6-92a9-a641453fa653)
+
 
 We hope you enjoy using our application! If you have any questions or need assistance, please refer to the documentation or reach out to our support team.
 
