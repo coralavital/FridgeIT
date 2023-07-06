@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage>
               color: ThemeColors().light2,
               borderRadius: BorderRadius.circular(Dimensions.size20),
             ),
-            height: Dimensions.size110,
+            height: Dimensions.size120,
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
