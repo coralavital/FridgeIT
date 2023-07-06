@@ -7,7 +7,7 @@ To run the Flutter application locally, please follow these steps:
 1. Make sure you have Flutter and Dart installed on your machine. If not, refer to the [official Flutter documentation](https://flutter.dev/docs/get-started/install) for installation instructions.
 
 2. Clone this repository to your local machine using the following command:
-  git clone https://github.com/your-username/flutter-app.git
+  git clone [https://github.com/your-username/flutter-app.git](https://github.com/coralavital/FridgeIT_Flutter_Application.git )
 
 3. Navigate to the project directory:
   cd flutter-app
@@ -17,7 +17,7 @@ To run the Flutter application locally, please follow these steps:
   
 5. Run the Flutter application:
   flutter run
-  This command will launch the application on the connected device or emulator.\
+  This command will launch the application on the connected device or emulator.
 
 
 ## Features
@@ -27,6 +27,7 @@ This repository contains the source code for our application, which provides var
 
 ## Login Screen
 The login screen allows users to access the application by logging in with their credentials. It includes two fields - email and password. After entering the required login details, users can click on the "Login" button to access the main home page. If users haven't registered yet, they can click on the "Register" button. In case users have forgotten their password, they can click on the "I forgot my password" button.
+<img src="[/path/to/img.jpg](https://drive.google.com/file/d/1yN_W0sOiehbLsuheBjgydbmKJc1sBvuN/view?usp=drive_link)" alt="Alt text" title="Optional title">
 
 ## Signup Screen
 The signup screen is designed for users who are new to the application. It contains several mandatory fields such as first name, last name, email, password, and gender. After providing the necessary registration information, users can click on the "Register" button to create an account and automatically navigate to the main home page. If users are already registered, they can click on the "Login" button. In case users forget their password, they can click on the "I forgot my password" button.
